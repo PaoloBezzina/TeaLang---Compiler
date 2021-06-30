@@ -174,6 +174,8 @@ public class Lexer {
         }
 
         // Check if EOF
+        System.out.println(current_index);
+        System.out.println(program.length());
         if (current_index == program.length()) {
             //lexeme = (char) EOF;
             lexeme = "¬";   //EOF token
@@ -184,6 +186,15 @@ public class Lexer {
 
         // While current state is not error state
         while (current_state != e) {
+            
+            if (current_index == program.length()) {
+                //lexeme = (char) EOF;
+                lexeme = "¬";   //EOF token
+                current_index++;
+                //return Token(22, lexeme, get_line_number(program, current_index.argValue));
+                return new Token(22, String.valueOf(lexeme), get_line_number(program, current_index));
+            }
+
             current_symbol = program.charAt(current_index);
             lexeme += current_symbol;
 
@@ -205,10 +216,9 @@ public class Lexer {
         }
 
         // Rollback loop
-        while (!is_final[current_state] && current_state != -1) {
+        while (current_state != -1 && !is_final[current_state]) {
             current_state = state_stack.peek();
             state_stack.pop();
-            //lexeme.pop_back();
             lexeme = pop_back(lexeme);
             current_index--;
         }
@@ -227,7 +237,7 @@ public class Lexer {
 
     public int get_line_number(String program, int index) {
         int line = 1;
-        for (int i = 0; i < index; i++) {
+        for (int i = 0; i < index-1; i++) {
             if (program.charAt(i) == '\n') {
                 line++;
             }

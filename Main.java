@@ -1,12 +1,11 @@
 import lexer.*;
 import java.io.*;
 
-
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
-        String filePath = "sampleCode/teaTest.txt";
+        String filePath = "sampleCode/teaTest2.txt";
 
         File file = new File(filePath);
         String program = "";
@@ -21,17 +20,18 @@ public class Main {
         String st = null;
         while (true) {
             try {
-                if (!((st = br.readLine()) != null)) break;
+                if (!((st = br.readLine()) != null))
+                    break;
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            System.out.println(st);
             program += (st + "\n");
         }
 
-        //Lexer
         System.out.println(program);
+
+        // Lexer
         Lexer lex = new Lexer(program);
     }
 }

@@ -1,2 +1,4 @@
 let x : float = 2.4;
+let y : int = 4;
 print x;
+print y;
