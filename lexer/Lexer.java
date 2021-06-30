@@ -13,24 +13,24 @@ public class Lexer {
     private final boolean[] is_final = {false, true, false, true, true, true, false, true, true, true, true, true, false, false, true, false, true, false, false, false, true, true, true, false};
 
     private final int[][] transitions = {
-            /* S0  S1  S2  S3  S4  S5  S6  S7  S8  S9 S10 S11 S12 S13 S14 S15 S16 S17 S18 S19 S20 S21 S22 */
-            /* DIGIT          */ {1, 1, 3, 3, e, e, e, e, e, e, 10, e, 12, 13, e, 13, e, 17, 17, 17, e, e, e},
-            /* PERIOD         */ {2, 3, e, e, e, e, e, e, e, e, e, e, 12, 13, e, 13, e, 17, 17, 17, e, e, e},
-            /* ADDITIVE_OP    */ {4, e, e, e, e, e, e, e, e, e, e, e, 12, 13, e, 13, e, 17, 17, 17, e, e, e},
-            /* ASTERISK       */ {5, e, e, e, e, e, e, e, e, e, e, 13, 12, 15, e, 15, e, 17, 17, 17, e, e, e},
-            /* EXCL_MARK      */ {6, e, e, e, e, e, e, e, e, e, e, e, 12, 13, e, 13, e, 17, 17, 17, e, e, e},
-            /* ORDER_REL      */ {7, e, e, e, e, e, e, e, e, e, e, e, 12, 13, e, 13, e, 17, 17, 17, e, e, e},
-            /* EQUALS         */ {8, e, e, e, e, e, 9, 9, 9, e, e, e, 12, 13, e, 13, e, 17, 17, 17, e, e, e},
-            /* UNDERSCORE     */ {10, e, e, e, e, e, e, e, e, e, 10, e, 12, 13, e, 13, e, 17, 17, 17, e, e, e},
-            /* FORWARDSLASH   */ {11, e, e, e, e, e, e, e, e, e, e, 12, 12, 13, e, 16, e, 17, 17, 17, e, e, e},
-            /* BACKSLASH      */ {e, e, e, e, e, e, e, e, e, e, e, e, 12, 13, e, 13, e, 18, 18, 18, e, e, e},
-            /* QUOTATION_MARK */ {17, e, e, e, e, e, e, e, e, e, e, e, 12, 13, e, 13, e, 20, 19, 20, e, e, e},
-            /* PUNCTUATION    */ {21, e, e, e, e, e, e, e, e, e, e, e, 12, 13, e, 13, e, 17, 17, 17, e, e, e},
-            /* NEWLINE        */ {e, e, e, e, e, e, e, e, e, e, e, e, 14, 13, e, 13, e, e, e, e, e, e, e},
-            /* ENDOFFILE      */ {22, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e},
-            /* LETTER         */ {10, e, e, e, e, e, e, e, e, e, 10, e, 12, 13, e, 13, e, 17, 17, 17, e, e, e},
-            /* PRINTABLE      */ {e, e, e, e, e, e, e, e, e, e, e, e, 12, 13, e, 13, e, 17, 17, 17, e, e, e},
-            /* OTHER          */ {e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e}};
+                                /* S0  S1  S2  S3  S4  S5  S6  S7  S8  S9 S10 S11 S12 S13 S14 S15 S16 S17 S18 S19 S20 S21 S22 */
+            /* DIGIT          */ { 1,  1,  3,  3,  e,  e,  e,  e,  e,  e, 10,  e, 12, 13,  e, 13,  e, 17, 17, 17,  e,  e,  e},
+            /* PERIOD         */ { 2,  3,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e, 12, 13,  e, 13,  e, 17, 17, 17,  e,  e,  e},
+            /* ADDITIVE_OP    */ { 4,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e, 12, 13,  e, 13,  e, 17, 17, 17,  e,  e,  e},
+            /* ASTERISK       */ { 5,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e, 13, 12, 15,  e, 15,  e, 17, 17, 17,  e,  e,  e},
+            /* EXCL_MARK      */ { 6,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e, 12, 13,  e, 13,  e, 17, 17, 17,  e,  e,  e},
+            /* ORDER_REL      */ { 7,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e, 12, 13,  e, 13,  e, 17, 17, 17,  e,  e,  e},
+            /* EQUALS         */ { 8,  e,  e,  e,  e,  e,  9,  9,  9,  e,  e,  e, 12, 13,  e, 13,  e, 17, 17, 17,  e,  e,  e},
+            /* UNDERSCORE     */ {10,  e,  e,  e,  e,  e,  e,  e,  e,  e, 10,  e, 12, 13,  e, 13,  e, 17, 17, 17,  e,  e,  e},
+            /* FORWARDSLASH   */ {11,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e, 12, 12, 13,  e, 16,  e, 17, 17, 17,  e,  e,  e},
+            /* BACKSLASH      */ { e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e, 12, 13,  e, 13,  e, 18, 18, 18,  e,  e,  e},
+            /* QUOTATION_MARK */ {17,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e, 12, 13,  e, 13,  e, 20, 19, 20,  e,  e,  e},
+            /* PUNCTUATION    */ {21,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e, 12, 13,  e, 13,  e, 17, 17, 17,  e,  e,  e},
+            /* NEWLINE        */ { e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e, 14, 13,  e, 13,  e,  e,  e,  e,  e,  e,  e},
+            /* ENDOFFILE      */ {22,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e},
+            /* LETTER         */ {10,  e,  e,  e,  e,  e,  e,  e,  e,  e, 10,  e, 12, 13,  e, 13,  e, 17, 17, 17,  e,  e,  e},
+            /* PRINTABLE      */ { e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e, 12, 13,  e, 13,  e, 17, 17, 17,  e,  e,  e},
+            /* OTHER          */ { e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e,  e}};
 
     private int current_token = 0;
     private ArrayList<Token> tokens = new ArrayList<Token>();
@@ -44,11 +44,7 @@ public class Lexer {
 
         while (current_index <= program.length()) {
             
-            //tangible.RefObject<Integer> tempRef_current_index = new tangible.RefObject<Integer>(current_index);
-            t = next_token(program);
-            
-            System.out.println("--------------------------");
-            System.out.println(t.value + " " + t.type);
+            t = GetNextToken(program);
 
             if (t.type != TOKENS.TOK_COMMENT) {
                 tokens.add(t);
@@ -61,7 +57,7 @@ public class Lexer {
      * #tokens at the position specified by the global unsigned integer
      * #current_token, which is then incremented.
      */
-    public final Token next_token() {
+    public final Token GetNextToken() {
         if (current_token < tokens.size()) {
             return tokens.get(current_token++);
         } else {
@@ -156,13 +152,12 @@ public class Lexer {
 
     }
 
-    public Token next_token(String program) {
+    public Token GetNextToken(String program) {
 
         // Setup stack and lexeme
         int current_state = 0;
         Stack<Integer> state_stack = new Stack<Integer>();
         char current_symbol;
-        //String lexeme;
         String lexeme = "";
 
         // Push 'BAD' state on the stack
@@ -174,13 +169,9 @@ public class Lexer {
         }
 
         // Check if EOF
-        System.out.println(current_index);
-        System.out.println(program.length());
         if (current_index == program.length()) {
-            //lexeme = (char) EOF;
             lexeme = "¬";   //EOF token
             current_index++;
-            //return Token(22, lexeme, get_line_number(program, current_index.argValue));
             return new Token(22, String.valueOf(lexeme), get_line_number(program, current_index));
         }
 
@@ -188,10 +179,8 @@ public class Lexer {
         while (current_state != e) {
             
             if (current_index == program.length()) {
-                //lexeme = (char) EOF;
                 lexeme = "¬";   //EOF token
                 current_index++;
-                //return Token(22, lexeme, get_line_number(program, current_index.argValue));
                 return new Token(22, String.valueOf(lexeme), get_line_number(program, current_index));
             }
 
