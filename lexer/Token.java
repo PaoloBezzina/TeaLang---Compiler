@@ -1,6 +1,6 @@
 package lexer;
 
-import lexer.*;
+//import lexer.*;
 
 public class Token {
 
@@ -32,7 +32,7 @@ public class Token {
 				return TOKENS.TOK_INT;
 
 			case 3:
-				return TOKENS.TOK_REAL;
+				return TOKENS.TOK_FLOAT;
 
 			case 4:
 				return TOKENS.TOK_ADDITIVE_OP;
@@ -51,12 +51,14 @@ public class Token {
 				return TOKENS.TOK_RELATIONAL_OP;
 
 			case 10:
-				if (value.equals("var")) {
-					return TOKENS.TOK_VAR;
+				if (value.equals("let")) {
+					return TOKENS.TOK_LET;
 				}
 				if (value.equals("set")) {
 					return TOKENS.TOK_SET;
 				}
+
+				// TODO: remove this state and replace with tealang function decleration
 				if (value.equals("def")) {
 					return TOKENS.TOK_DEF;
 				}
@@ -69,6 +71,9 @@ public class Token {
 				if (value.equals("else")) {
 					return TOKENS.TOK_ELSE;
 				}
+				if (value.equals("for")) {
+					return TOKENS.TOK_FOR;
+				}
 				if (value.equals("while")) {
 					return TOKENS.TOK_WHILE;
 				}
@@ -78,8 +83,8 @@ public class Token {
 				if (value.equals("int")) {
 					return TOKENS.TOK_INT_TYPE;
 				}
-				if (value.equals("real")) {
-					return TOKENS.TOK_REAL_TYPE;
+				if (value.equals("float")) {
+					return TOKENS.TOK_FLOAT_TYPE;
 				}
 				if (value.equals("bool")) {
 					return TOKENS.TOK_BOOL_TYPE;
@@ -99,6 +104,8 @@ public class Token {
 				if (value.equals("not")) {
 					return TOKENS.TOK_NOT;
 				}
+				return TOKENS.TOK_IDENTIFIER;
+				
 			case 14:
 			case 16:
 				return TOKENS.TOK_COMMENT;
@@ -107,19 +114,19 @@ public class Token {
 				return TOKENS.TOK_STRING;
 
 			case 21:
-				if (value == "{")
+				if (value.equals("{"))
 					return TOKENS.TOK_LEFT_CURLY;
-				if (value == "}")
+				if (value.equals("}"))
 					return TOKENS.TOK_RIGHT_CURLY;
-				if (value == "(")
+				if (value.equals("("))
 					return TOKENS.TOK_LEFT_BRACKET;
-				if (value == ")")
+				if (value.equals(")"))
 					return TOKENS.TOK_RIGHT_BRACKET;
-				if (value == ",")
+				if (value.equals(","))
 					return TOKENS.TOK_COMMA;
-				if (value == ";")
+				if (value.equals(";"))
 					return TOKENS.TOK_SEMICOLON;
-				if (value == ":")
+				if (value.equals(":"))
 					return TOKENS.TOK_COLON;
 
 			case 22:
