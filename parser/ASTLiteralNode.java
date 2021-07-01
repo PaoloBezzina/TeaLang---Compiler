@@ -1,5 +1,9 @@
 package parser;
 
-public class ASTLiteralNode {
+import parser.*;
+import parser.visitor.Visitor;
+import java.util.*;
+
+public class ASTLiteralNode<T> {
     
 }

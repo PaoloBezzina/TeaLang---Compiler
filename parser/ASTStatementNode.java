@@ -1,9 +1,10 @@
 package parser;
 
 import parser.*;
+import parser.visitor.Visitor;
 import java.util.*;
 
-public interface ASTStatementNode extends ASTNode {
+public interface ASTStatementNode extends ASTNode{
 	@Override
-	void accept(visitor.Visitor UnnamedParameter);
+	void accept(Visitor UnnamedParameter);
 }

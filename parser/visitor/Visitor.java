@@ -1,6 +1,6 @@
 package parser.visitor;
 
-public interface Visitor<T> {
+public interface Visitor <T>{
 
 	void visit(parser.ASTProgramNode UnnamedParameter);
 
@@ -20,13 +20,13 @@ public interface Visitor<T> {
 
 	void visit(parser.ASTFunctionDefinitionNode UnnamedParameter);
 
-	void visit(parser.ASTLiteralNode<Integer> UnnamedParameter);
+	void visit(parser.ASTLiteralNode<T> UnnamedParameter);
 
-	void visit(parser.ASTLiteralNode<Float> UnnamedParameter);
+/* 	void visit(parser.ASTLiteralNode<Float> UnnamedParameter);
 
 	void visit(parser.ASTLiteralNode<Boolean> UnnamedParameter);
 
-	void visit(parser.ASTLiteralNode<String> UnnamedParameter);
+	void visit(parser.ASTLiteralNode<String> UnnamedParameter); */
 
 	void visit(parser.ASTBinaryExprNode UnnamedParameter);
 

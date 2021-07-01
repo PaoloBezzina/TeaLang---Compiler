@@ -1,12 +1,10 @@
 package parser;
 
 import parser.*;
+import parser.visitor.Visitor;
 import java.util.*;
 
 public class ASTBlockNode implements ASTStatementNode {
-	// C++ TO JAVA CONVERTER WARNING: Unsigned integer types have no direct
-	// equivalent in Java:
-	// ORIGINAL LINE: ASTBlockNode(std::vector<ASTStatementNode*>, unsigned int);
 	public ASTBlockNode(ArrayList<ASTStatementNode> statements, int line_number)
 	{
 		this.statements = statements;
@@ -14,13 +12,10 @@ public class ASTBlockNode implements ASTStatementNode {
 	}
 
 	public ArrayList<ASTStatementNode> statements = new ArrayList<ASTStatementNode>();
-	// C++ TO JAVA CONVERTER WARNING: Unsigned integer types have no direct
-	// equivalent in Java:
-	// ORIGINAL LINE: unsigned int line_number;
 	public int line_number;
 
 	@Override
-	public void accept(visitor.Visitor v) {
+	public void accept(Visitor v) {
 		v.visit(this);
 	}
 }

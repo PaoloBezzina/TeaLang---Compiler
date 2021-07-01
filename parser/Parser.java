@@ -32,18 +32,6 @@ public class Parser {
 		return new ASTProgramNode(statements);
 	}
 
-	public final ASTExprNode parse_expression() {
-		ASTExprNode simple_expr = parse_simple_expression();
-		int line_number = current_token.line_number;
-
-		if (GetNextToken.type == lexer.TOKENS.TOK_RELATIONAL_OP) {
-			consume_token();
-			return new ASTBinaryExprNode(current_token.value, simple_expr, parse_expression(), line_number);
-		}
-
-		return simple_expr;
-	}
-
 	private lexer.Lexer lex;
 	private lexer.Token current_token = new lexer.Token();
 	private lexer.Token GetNextToken = new lexer.Token();
@@ -86,6 +74,18 @@ public class Parser {
 				throw new RuntimeException("Invalid statement starting with '" + current_token.value
 						+ "' encountered on line " + String.valueOf(current_token.line_number) + ".");
 		}
+	}
+
+	public final ASTExprNode parse_expression() {
+		ASTExprNode simple_expr = parse_simple_expression();
+		int line_number = current_token.line_number;
+
+		if (GetNextToken.type == lexer.TOKENS.TOK_RELATIONAL_OP) {
+			consume_token();
+			return new ASTBinaryExprNode(current_token.value, simple_expr, parse_expression(), line_number);
+		}
+
+		return simple_expr;
 	}
 
 	private ASTDeclarationNode parse_declaration_statement() {
@@ -455,25 +455,20 @@ public class Parser {
 
 	}
 
-	// C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following
-	// method implementation was not found:
-	public ASTExprNode parse_expression() {
-		ASTExprNode simple_expr = parse_simple_expression();
-		// C++ TO JAVA CONVERTER WARNING: Unsigned integer types have no direct
-		// equivalent in Java:
-		// ORIGINAL LINE: unsigned int line_number = current_token.line_number;
-		int line_number = current_token.line_number;
+	/*
+	 * // C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the
+	 * following // method implementation was not found: //bookmark public
+	 * ASTExprNode parse_expression() { ASTExprNode simple_expr =
+	 * parse_simple_expression(); int line_number = current_token.line_number;
+	 * 
+	 * if (GetNextToken.type == lexer.TOKENS.TOK_RELATIONAL_OP) { consume_token();
+	 * return new ASTBinaryExprNode(current_token.value, simple_expr,
+	 * parse_expression(), line_number); }
+	 * 
+	 * return simple_expr; }
+	 */
 
-		if (GetNextToken.type == lexer.TOKENS.TOK_RELATIONAL_OP) {
-			consume_token();
-			return new ASTBinaryExprNode(current_token.value, simple_expr, parse_expression(), line_number);
-		}
 
-		return simple_expr;
-	}
-
-	// C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following
-	// method implementation was not found:
 	public ASTExprNode parse_simple_expression() {
 
 		ASTExprNode term = parse_term();
@@ -490,8 +485,7 @@ public class Parser {
 		return term;
 	}
 
-	// C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following
-	// method implementation was not found:
+
 	public ASTExprNode parse_term() {
 
 		ASTExprNode factor = parse_factor();
@@ -508,8 +502,7 @@ public class Parser {
 		return factor;
 	}
 
-	// C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following
-	// method implementation was not found:
+
 	public ASTExprNode parse_factor() {
 
 		consume_token();
@@ -607,8 +600,7 @@ public class Parser {
 
 	}
 
-	// C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following
-	// method implementation was not found:
+
 	public ASTFunctionCallNode parse_function_call() {
 		// current token is the function identifier
 		String identifier = current_token.value;
@@ -640,8 +632,7 @@ public class Parser {
 		return new ASTFunctionCallNode(identifier, parameters, line_number);
 	}
 
-	// C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following
-	// method implementation was not found:
+
 	public ArrayList<ASTExprNode> parse_actual_params() {
 
 		var parameters = new ArrayList<ASTExprNode>();
@@ -658,8 +649,7 @@ public class Parser {
 		return new ArrayList<ASTExprNode>(parameters);
 	}
 
-	// C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following
-	// method implementation was not found:
+
 	public TYPE parse_type(String identifier) {
 		switch (current_token.type) {
 			case TOK_INT_TYPE:
