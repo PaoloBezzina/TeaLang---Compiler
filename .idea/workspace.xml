@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ac9b7420-8084-4d74-ad51-0b85faa5f23b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lexer/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/lexer/Lexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/ASTDeclarationNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/parser/ASTDeclarationNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/ASTExprNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/parser/ASTExprNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/ASTFunctionDefinitionNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/parser/ASTFunctionDefinitionNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/ASTNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/parser/ASTNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/ASTPrintNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/parser/ASTPrintNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/ASTReturnNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/parser/ASTReturnNode.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

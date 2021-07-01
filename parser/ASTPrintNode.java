@@ -1,6 +1,7 @@
 package parser;
 
 import parser.*;
+import parser.visitor.Visitor;
 import java.util.*;
 
 public class ASTPrintNode implements ASTStatementNode {
@@ -13,7 +14,7 @@ public class ASTPrintNode implements ASTStatementNode {
 	public int line_number;
 
 	@Override
-	public void accept(visitor.Visitor v) {
+	public void accept(Visitor v) {
 		v.visit(this);
 	}
 }

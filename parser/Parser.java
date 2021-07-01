@@ -25,6 +25,7 @@ public class Parser {
 		var statements = new ArrayList<ASTNode>();
 
 		while (current_token.type != lexer.TOKENS.TOK_EOF) {
+
 			statements.add(parse_statement());
 			consume_token();
 		}
@@ -527,7 +528,7 @@ public class Parser {
 
 			case TOK_STRING: {
 				// Remove " character from front and end of lexeme
-				String str = current_token.value.substr(1, current_token.value.size() - 2);
+				String str = current_token.value.substring(1, current_token.value.length() - 2);
 
 				// Replace \" with quote
 				int pos = str.indexOf("\\\"");

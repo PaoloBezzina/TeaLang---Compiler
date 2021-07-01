@@ -1,4 +1,5 @@
 import lexer.*;
+import parser.*;
 import java.io.*;
 
 public class Main {
@@ -39,5 +40,9 @@ public class Main {
             t = lexer.GetNextToken();
             System.out.println(t.type + ": " + t.value);
         }
+
+        //Parser
+        Parser parser = new Parser(lexer);
+        parser.parse_program();
     }
 }

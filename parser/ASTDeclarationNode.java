@@ -5,10 +5,10 @@ import parser.visitor.Visitor;
 import java.util.*;
 
 public class ASTDeclarationNode implements ASTStatementNode {
-	// Statement Nodes
 	public ASTDeclarationNode(TYPE type, String identifier, ASTExprNode expr, int line_number)
 	{
-		this.type = new parser.TYPE(type);
+		//this.type = new parser.TYPE(type);
+		this.type = type;
 		this.identifier = identifier;
 		this.expr = expr;
 		this.line_number = line_number;
