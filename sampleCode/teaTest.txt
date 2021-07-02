@@ -1,1 +1,1 @@
-var x real = 2;
+let x : float = 2;

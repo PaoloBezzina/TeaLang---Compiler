@@ -2,7 +2,7 @@
 * The lexer should ignore this comment
 */
 
-def fib(n : int) : int {
+int fib(n : int) {
     if(n == 0){return 0;}
     else{                       // this one too
         if(n == 1){return 1;}

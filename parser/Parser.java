@@ -50,7 +50,7 @@ public class Parser {
 			case TOK_LET:
 				return parse_declaration_statement();
 
-			case TOK_SET:
+			case TOK_IDENTIFIER:
 				return parse_assignment_statement();
 
 			case TOK_PRINT:
@@ -62,10 +62,17 @@ public class Parser {
 			case TOK_WHILE:
 				return parse_while_statement();
 
+			case TOK_FOR:
+				return parse_for_statement();
+
 			case TOK_RETURN:
 				return parse_return_statement();
 
-			case TOK_DEF:
+			//case TOK_DEF:
+			case TOK_BOOL_TYPE:
+			case TOK_FLOAT_TYPE:
+			case TOK_INT_TYPE:
+			case TOK_STRING_TYPE:
 				return parse_function_definition();
 
 			case TOK_LEFT_CURLY:
@@ -145,7 +152,7 @@ public class Parser {
 		// Determine line number
 		int line_number = current_token.line_number;
 
-		consume_token();
+		//consume_token();
 		if (current_token.type != lexer.TOKENS.TOK_IDENTIFIER) {
 			throw new RuntimeException(
 					"Expected variable name after 'set' on line " + String.valueOf(current_token.line_number) + ".");
@@ -341,6 +348,93 @@ public class Parser {
 		return new ASTWhileNode(condition, block, line_number);
 	}
 
+	//bookmark
+	public ASTForNode parse_for_statement() {
+
+		// Node attributes
+		ASTDeclarationNode variable = null;
+		ASTExprNode condition;
+		ASTAssignmentNode assignment;
+		ASTBlockNode block;
+
+		int line_number = current_token.line_number;
+
+		System.out.println(current_token.type);
+		// Consume 'for'
+		consume_token();
+		System.out.println("consumed for");
+		System.out.println(current_token.type);
+
+		
+		// Consume '('
+		if (current_token.type != lexer.TOKENS.TOK_LEFT_BRACKET) {
+			throw new RuntimeException(
+					"Expected '(' after 'for' on line " + String.valueOf(current_token.line_number) + ".");
+		}
+/* 		consume_token();
+		System.out.println("consumed (");
+		System.out.println(current_token.type); 
+*/
+
+		// Lookahead whether there is a variable decleration
+		if (GetNextToken.type == lexer.TOKENS.TOK_LET) {
+			variable = parse_declaration_statement();
+ 		}/*else{
+			// TODO: case variable alreayd declaired
+			//variable = 
+		} */
+
+		// Consume the ';'
+		if (current_token.type != lexer.TOKENS.TOK_SEMICOLON) {
+			throw new RuntimeException(
+					"Expected ';' in for statement on line " + String.valueOf(current_token.line_number) + ".");
+		}
+		consume_token();
+		System.out.println("consumed ;");
+		System.out.println(current_token.type);
+
+		// Parse the expression
+		//consume_token();
+		condition = parse_expression();
+
+		// Consume ';'
+		consume_token();
+		if (current_token.type != lexer.TOKENS.TOK_SEMICOLON) {
+			throw new RuntimeException(
+					"Expected ';' after expression in for statemenet on line " + String.valueOf(current_token.line_number) + ".");
+		}
+
+		// Parse the assignment
+		//consume_token();
+		assignment = parse_assignment_statement();
+
+		// Consume the ')'
+		consume_token();
+		if (current_token.type != lexer.TOKENS.TOK_RIGHT_BRACKET) {
+			throw new RuntimeException(
+					"Expected ')' at the end of for statement on line " + String.valueOf(current_token.line_number) + ".");
+		}
+
+		
+		// Consume '{'
+		consume_token();
+		if (current_token.type != lexer.TOKENS.TOK_LEFT_CURLY) {
+			throw new RuntimeException(
+					"Expected '{' after while-condition on line " + String.valueOf(current_token.line_number) + ".");
+		}
+
+		// Consume while-block and '}'
+		block = parse_block();
+
+		// Return while node
+		//return new ASTForNode(condition, block, line_number);
+		if(variable != null){
+			return new ASTForNode(variable, condition, assignment, block, line_number);
+		}else{
+			return new ASTForNode(condition, assignment, block, line_number);
+		}
+	}
+
 	public ASTFunctionDefinitionNode parse_function_definition() {
 
 		// Node attributes
@@ -350,13 +444,16 @@ public class Parser {
 		TYPE type;
 		ASTBlockNode block;
 		int line_number = current_token.line_number;
-
-		// Consume identifier
+		
+		// Consume type
+		identifier = current_token.value;
+		type = parse_type(identifier);
 		consume_token();
+
 
 		// Make sure it is an identifier
 		if (current_token.type != lexer.TOKENS.TOK_IDENTIFIER) {
-			throw new RuntimeException("Expected function identifier after keyword 'def' on line "
+			throw new RuntimeException("Expected function identifier on line "
 					+ String.valueOf(current_token.line_number) + ".");
 		}
 
@@ -398,18 +495,6 @@ public class Parser {
 						"Expected ')' or more parameters on line " + String.valueOf(current_token.line_number) + ".");
 			}
 		}
-
-		// Consume ':'
-		consume_token();
-
-		if (current_token.type != lexer.TOKENS.TOK_COLON) {
-			throw new RuntimeException(
-					"Expected ':' after ')' on line " + String.valueOf(current_token.line_number) + ".");
-		}
-
-		// Consume type
-		consume_token();
-		type = parse_type(identifier);
 
 		// Consume '{'
 		consume_token();
@@ -456,26 +541,10 @@ public class Parser {
 
 	}
 
-	/*
-	 * // C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the
-	 * following // method implementation was not found: //bookmark public
-	 * ASTExprNode parse_expression() { ASTExprNode simple_expr =
-	 * parse_simple_expression(); int line_number = current_token.line_number;
-	 * 
-	 * if (GetNextToken.type == lexer.TOKENS.TOK_RELATIONAL_OP) { consume_token();
-	 * return new ASTBinaryExprNode(current_token.value, simple_expr,
-	 * parse_expression(), line_number); }
-	 * 
-	 * return simple_expr; }
-	 */
-
 
 	public ASTExprNode parse_simple_expression() {
 
 		ASTExprNode term = parse_term();
-		// C++ TO JAVA CONVERTER WARNING: Unsigned integer types have no direct
-		// equivalent in Java:
-		// ORIGINAL LINE: unsigned int line_number = current_token.line_number;
 		int line_number = current_token.line_number;
 
 		if (GetNextToken.type == lexer.TOKENS.TOK_ADDITIVE_OP) {
@@ -490,9 +559,6 @@ public class Parser {
 	public ASTExprNode parse_term() {
 
 		ASTExprNode factor = parse_factor();
-		// C++ TO JAVA CONVERTER WARNING: Unsigned integer types have no direct
-		// equivalent in Java:
-		// ORIGINAL LINE: unsigned int line_number = current_token.line_number;
 		int line_number = current_token.line_number;
 
 		if (GetNextToken.type == lexer.TOKENS.TOK_MULTIPLICATIVE_OP) {
@@ -509,9 +575,6 @@ public class Parser {
 		consume_token();
 
 		// Determine line number
-		// C++ TO JAVA CONVERTER WARNING: Unsigned integer types have no direct
-		// equivalent in Java:
-		// ORIGINAL LINE: unsigned int line_number = current_token.line_number;
 		int line_number = current_token.line_number;
 
 		switch (current_token.type) {
@@ -657,7 +720,7 @@ public class Parser {
 				return TYPE.INT;
 
 			case TOK_FLOAT_TYPE:
-				return TYPE.REAL;
+				return TYPE.FLOAT;
 
 			case TOK_BOOL_TYPE:
 				return TYPE.BOOLEAN;

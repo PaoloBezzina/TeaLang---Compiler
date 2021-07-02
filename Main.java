@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String filePath = "sampleCode/teaTest.txt";
+        String filePath = "sampleCode/teaTest4.txt";
 
         File file = new File(filePath);
         String program = "";
@@ -30,17 +30,17 @@ public class Main {
             program += (st + "\n");
         }
 
-        System.out.println(program);
+        //System.out.println(program);
 
         // Lexer
         Lexer lexer = new Lexer(program);
         Token t = new Token();
-
+/* 
         while(t.type != TOKENS.TOK_EOF){
             t = lexer.GetNextToken();
             System.out.println(t.type + ": " + t.value);
         }
-
+ */
         //Parser
         Parser parser = new Parser(lexer);
         parser.parse_program();

@@ -7,7 +7,7 @@ import java.util.*;
 public enum TYPE
 {
 	INT,
-	REAL,
+	FLOAT,
 	BOOLEAN,
 	STRING;
 
