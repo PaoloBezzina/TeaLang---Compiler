@@ -13,7 +13,7 @@ public class ASTUnaryExprNode implements ASTExprNode{
 	}
 
     public String unary_op;
-    ASTExprNode expr;
+    public ASTExprNode expr;
 	public int line_number;
 
     @Override

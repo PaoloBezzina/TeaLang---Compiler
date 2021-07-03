@@ -1,0 +1,192 @@
+<program>
+	<func-def type="float">
+		<id>Square</id>
+		<param type="float">x</param>
+		<block>
+			<return>
+				<bin op="*">
+					<id>					x					</id>
+					<id>					x					</id>
+				</bin>
+			</return>
+		</block>
+	</func-def>
+	<func-def type="bool">
+		<id>XGreaterThanY</id>
+		<param type="float">x</param>
+		<param type="float">y</param>
+		<block>
+			<decl>
+				<id type="bool">ans</id>
+				<bool>				true				</bool>
+				<string>				true				</string>
+				invalid Literal Node tyoe
+			</decl>
+			<if>
+				<condition>
+					<bin op="&gt;">
+						<id>						y						</id>
+						<id>						x						</id>
+					</bin>
+				</condition>
+				<if-block>
+					<block>
+						<assign>
+							<id>ans</id>
+							<bool>							false							</bool>
+							<string>							false							</string>
+							invalid Literal Node tyoe
+						</assign>
+					</block>
+				</if-block>
+			</if>
+			<return>
+				<id>				ans				</id>
+			</return>
+		</block>
+	</func-def>
+	<func-def type="bool">
+		<id>XGreaterThanYv2</id>
+		<param type="float">x</param>
+		<param type="float">y</param>
+		<block>
+			<return>
+				<bin op="&gt;">
+					<id>					x					</id>
+					<id>					y					</id>
+				</bin>
+			</return>
+		</block>
+	</func-def>
+	<func-def type="float">
+		<id>AverageOfThree</id>
+		<param type="float">x</param>
+		<param type="float">y</param>
+		<param type="float">z</param>
+		<block>
+			<decl>
+				<id type="float">total</id>
+				<bin op="+">
+					<id>					x					</id>
+					<bin op="+">
+						<id>						y						</id>
+						<id>						z						</id>
+					</bin>
+				</bin>
+			</decl>
+			<return>
+				<bin op="/">
+					<id>					total					</id>
+					<int>					3					</int>
+					<float>					3					</float>
+					<bool>					false					</bool>
+					<string>					3					</string>
+					invalid Literal Node tyoe
+				</bin>
+			</return>
+		</block>
+	</func-def>
+	<func-def type="string">
+		<id>JoinStr</id>
+		<param type="string">s1</param>
+		<param type="string">s2</param>
+		<block>
+			<decl>
+				<id type="string">s3</id>
+				<bin op="+">
+					<id>					s1					</id>
+					<id>					s2					</id>
+				</bin>
+			</decl>
+			<return>
+				<id>				s3				</id>
+			</return>
+		</block>
+	</func-def>
+	<decl>
+		<id type="float">x</id>
+		<float>		2.4		</float>
+		<bool>		false		</bool>
+		<string>		2.4		</string>
+		invalid Literal Node tyoe
+	</decl>
+	<decl>
+		<id type="float">y</id>
+		<func-call>
+			<id>Square</id>
+			<arg>
+				<float>				2.5				</float>
+				<bool>				false				</bool>
+				<string>				2.5				</string>
+				invalid Literal Node tyoe
+			</arg>
+		</func-call>
+	</decl>
+	<print>
+		<id>				y				</id>
+	</print>
+	<print>
+		<func-call>
+			<id>XGreaterThanY</id>
+			<arg>
+				<id>						x						</id>
+			</arg>
+			<arg>
+				<float>								2.3								</float>
+				<bool>								false								</bool>
+				<string>								2.3								</string>
+				invalid Literal Node tyoe
+			</arg>
+		</func-call>
+	</print>
+	<print>
+		<func-call>
+			<id>XGreaterThanYv2</id>
+			<arg>
+				<func-call>
+					<id>Square</id>
+					<arg>
+						<int>												15												</int>
+						<float>												15												</float>
+						<bool>												false												</bool>
+						<string>												15												</string>
+						invalid Literal Node tyoe
+					</arg>
+				</func-call>
+			</arg>
+			<arg>
+				<id>														y														</id>
+			</arg>
+		</func-call>
+	</print>
+	<print>
+		<func-call>
+			<id>AverageOfThree</id>
+			<arg>
+				<id>																x																</id>
+			</arg>
+			<arg>
+				<id>																		y																		</id>
+			</arg>
+			<arg>
+				<float>																				1.2																				</float>
+				<bool>																				false																				</bool>
+				<string>																				1.2																				</string>
+				invalid Literal Node tyoe
+			</arg>
+		</func-call>
+	</print>
+	<print>
+		<func-call>
+			<id>JoinStr</id>
+			<arg>
+				<string>																						Hell																						</string>
+				invalid Literal Node tyoe
+			</arg>
+			<arg>
+				<string>																								 Worl																								</string>
+				invalid Literal Node tyoe
+			</arg>
+		</func-call>
+	</print>
+</program>

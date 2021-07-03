@@ -1,12 +1,15 @@
 import lexer.*;
 import parser.*;
+import visitor.XMLVisitor;
+
 import java.io.*;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        String filePath = "sampleCode/teaTest4.txt";
+        String filePath = "sampleCode/teaTest2.txt";
 
         File file = new File(filePath);
         String program = "";
@@ -43,6 +46,11 @@ public class Main {
  */
         //Parser
         Parser parser = new Parser(lexer);
-        parser.parse_program();
+        ASTProgramNode progNode = parser.parse_program();
+
+        //XML
+        XMLVisitor xml = new XMLVisitor();
+        xml.visit(progNode);
+        xml.close();
     }
 }
