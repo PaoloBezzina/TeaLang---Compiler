@@ -68,7 +68,6 @@ public class Parser {
 			case TOK_RETURN:
 				return parse_return_statement();
 
-			//case TOK_DEF:
 			case TOK_BOOL_TYPE:
 			case TOK_FLOAT_TYPE:
 			case TOK_INT_TYPE:
@@ -111,7 +110,7 @@ public class Parser {
 		consume_token();
 		if (current_token.type != lexer.TOKENS.TOK_IDENTIFIER) {
 			throw new RuntimeException(
-					"Expected variable name after 'var' on line " + String.valueOf(current_token.line_number) + ".");
+					"Expected variable name after 'let' on line " + String.valueOf(current_token.line_number) + ".");
 		}
 		identifier = current_token.value;
 
@@ -152,10 +151,10 @@ public class Parser {
 		// Determine line number
 		int line_number = current_token.line_number;
 
-		//consume_token();
+		// consume_token();
 		if (current_token.type != lexer.TOKENS.TOK_IDENTIFIER) {
 			throw new RuntimeException(
-					"Expected variable name after 'set' on line " + String.valueOf(current_token.line_number) + ".");
+					"Expected variable name on line " + String.valueOf(current_token.line_number) + ".");
 		}
 		identifier = current_token.value;
 
@@ -167,6 +166,11 @@ public class Parser {
 
 		// Parse the right hand side
 		expr = parse_expression();
+
+		// lookahaead if next statment is end of for loop
+		if (GetNextToken.type == lexer.TOKENS.TOK_RIGHT_BRACKET) {
+			return new ASTAssignmentNode(identifier, expr, line_number);
+		}
 
 		consume_token();
 		if (current_token.type != lexer.TOKENS.TOK_SEMICOLON) {
@@ -348,7 +352,7 @@ public class Parser {
 		return new ASTWhileNode(condition, block, line_number);
 	}
 
-	//bookmark
+	// bookmark
 	public ASTForNode parse_for_statement() {
 
 		// Node attributes
@@ -359,30 +363,20 @@ public class Parser {
 
 		int line_number = current_token.line_number;
 
-		System.out.println(current_token.type);
 		// Consume 'for'
 		consume_token();
-		System.out.println("consumed for");
-		System.out.println(current_token.type);
 
-		
 		// Consume '('
 		if (current_token.type != lexer.TOKENS.TOK_LEFT_BRACKET) {
 			throw new RuntimeException(
 					"Expected '(' after 'for' on line " + String.valueOf(current_token.line_number) + ".");
 		}
-/* 		consume_token();
-		System.out.println("consumed (");
-		System.out.println(current_token.type); 
-*/
+		consume_token();
 
-		// Lookahead whether there is a variable decleration
-		if (GetNextToken.type == lexer.TOKENS.TOK_LET) {
+		// Check if need to declare variable
+		if (current_token.type == lexer.TOKENS.TOK_LET) {
 			variable = parse_declaration_statement();
- 		}/*else{
-			// TODO: case variable alreayd declaired
-			//variable = 
-		} */
+		}
 
 		// Consume the ';'
 		if (current_token.type != lexer.TOKENS.TOK_SEMICOLON) {
@@ -390,32 +384,29 @@ public class Parser {
 					"Expected ';' in for statement on line " + String.valueOf(current_token.line_number) + ".");
 		}
 		consume_token();
-		System.out.println("consumed ;");
-		System.out.println(current_token.type);
 
 		// Parse the expression
-		//consume_token();
+		consume_token();
 		condition = parse_expression();
 
 		// Consume ';'
 		consume_token();
 		if (current_token.type != lexer.TOKENS.TOK_SEMICOLON) {
-			throw new RuntimeException(
-					"Expected ';' after expression in for statemenet on line " + String.valueOf(current_token.line_number) + ".");
+			throw new RuntimeException("Expected ';' after expression in for statemenet on line "
+					+ String.valueOf(current_token.line_number) + ".");
 		}
 
 		// Parse the assignment
-		//consume_token();
+		consume_token();
 		assignment = parse_assignment_statement();
 
 		// Consume the ')'
 		consume_token();
 		if (current_token.type != lexer.TOKENS.TOK_RIGHT_BRACKET) {
-			throw new RuntimeException(
-					"Expected ')' at the end of for statement on line " + String.valueOf(current_token.line_number) + ".");
+			throw new RuntimeException("Expected ')' at the end of for statement on line "
+					+ String.valueOf(current_token.line_number) + ".");
 		}
 
-		
 		// Consume '{'
 		consume_token();
 		if (current_token.type != lexer.TOKENS.TOK_LEFT_CURLY) {
@@ -426,11 +417,9 @@ public class Parser {
 		// Consume while-block and '}'
 		block = parse_block();
 
-		// Return while node
-		//return new ASTForNode(condition, block, line_number);
-		if(variable != null){
+		if (variable != null) {
 			return new ASTForNode(variable, condition, assignment, block, line_number);
-		}else{
+		} else {
 			return new ASTForNode(condition, assignment, block, line_number);
 		}
 	}
@@ -440,21 +429,19 @@ public class Parser {
 		// Node attributes
 		String identifier;
 		ArrayList<tangible.Pair<String, TYPE>> parameters = new ArrayList<tangible.Pair<String, TYPE>>();
-		// TYPE type = new TYPE();
 		TYPE type;
 		ASTBlockNode block;
 		int line_number = current_token.line_number;
-		
+
 		// Consume type
 		identifier = current_token.value;
 		type = parse_type(identifier);
 		consume_token();
 
-
 		// Make sure it is an identifier
 		if (current_token.type != lexer.TOKENS.TOK_IDENTIFIER) {
-			throw new RuntimeException("Expected function identifier on line "
-					+ String.valueOf(current_token.line_number) + ".");
+			throw new RuntimeException(
+					"Expected function identifier on line " + String.valueOf(current_token.line_number) + ".");
 		}
 
 		identifier = current_token.value;
@@ -515,7 +502,6 @@ public class Parser {
 	public tangible.Pair<String, TYPE> parse_formal_param() {
 
 		String identifier;
-		// TYPE type = new TYPE();
 		TYPE type;
 
 		// Make sure current token is identifier
@@ -541,7 +527,6 @@ public class Parser {
 
 	}
 
-
 	public ASTExprNode parse_simple_expression() {
 
 		ASTExprNode term = parse_term();
@@ -555,7 +540,6 @@ public class Parser {
 		return term;
 	}
 
-
 	public ASTExprNode parse_term() {
 
 		ASTExprNode factor = parse_factor();
@@ -568,7 +552,6 @@ public class Parser {
 
 		return factor;
 	}
-
 
 	public ASTExprNode parse_factor() {
 
@@ -664,14 +647,10 @@ public class Parser {
 
 	}
 
-
 	public ASTFunctionCallNode parse_function_call() {
 		// current token is the function identifier
 		String identifier = current_token.value;
 		var parameters = new ArrayList<ASTExprNode>();
-		// C++ TO JAVA CONVERTER WARNING: Unsigned integer types have no direct
-		// equivalent in Java:
-		// ORIGINAL LINE: unsigned int line_number = current_token.line_number;
 		int line_number = current_token.line_number;
 
 		consume_token();
@@ -696,7 +675,6 @@ public class Parser {
 		return new ASTFunctionCallNode(identifier, parameters, line_number);
 	}
 
-
 	public ArrayList<ASTExprNode> parse_actual_params() {
 
 		var parameters = new ArrayList<ASTExprNode>();
@@ -712,7 +690,6 @@ public class Parser {
 
 		return new ArrayList<ASTExprNode>(parameters);
 	}
-
 
 	public TYPE parse_type(String identifier) {
 		switch (current_token.type) {
