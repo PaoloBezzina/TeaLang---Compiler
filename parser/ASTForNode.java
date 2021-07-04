@@ -17,7 +17,7 @@ public class ASTForNode implements ASTStatementNode {
 		this.line_number = line_number;
 	}
 
-	public ASTDeclarationNode variable;
+	public ASTDeclarationNode variable = null;
 	public ASTExprNode expression;
     public ASTAssignmentNode assignment;
     public ASTBlockNode block;

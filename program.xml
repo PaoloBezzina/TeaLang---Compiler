@@ -1,166 +1,99 @@
 <Program>
 	<FuncDef type="float">
-		<Id>Square</Id>
+		<Identifier>Pow</Identifier>
 		<Parameter type="float">x</Parameter>
-		<Block>
-			<Return>
-				<BinExprNode Op="*">
-					<Id>x</Id>
-					<Id>x</Id>
-				</BinExprNode>
-			</Return>
-		</Block>
-	</FuncDef>
-	<FuncDef type="bool">
-		<Id>XGreaterThanY</Id>
-		<Parameter type="float">x</Parameter>
-		<Parameter type="float">y</Parameter>
+		<Parameter type="int">n</Parameter>
 		<Block>
 			<Decl>
-				<Id type="bool">ans</Id>
-				<BoolConst>true</BoolConst>
+				<Identifier type="float">y</Identifier>
+				<FloatConst>1.0</FloatConst>
 			</Decl>
 			<If>
 				<Condition>
 					<BinExprNode Op=">">
-						<Id>y</Id>
-						<Id>x</Id>
+						<Identifier>n</Identifier>
+						<IntConst>0</IntConst>
 					</BinExprNode>
 				</Condition>
 				<IfBlock>
 					<Block>
-						<Assign>
-							<Id>ans</Id>
-							<BoolConst>false</BoolConst>
-						</Assign>
+						<For>
+							<Variable>
+								<Decl>
+									<Identifier type="float">v</Identifier>
+									<FloatConst>0.0</FloatConst>
+								</Decl>
+							</Variable>
+							<Condition>
+								<IntConst>0</IntConst>
+							</Condition>
+							<Assignment>
+								<Assign>
+									<Identifier>n</Identifier>
+									<BinExprNode Op="-">
+										<Identifier>n</Identifier>
+										<IntConst>1</IntConst>
+									</BinExprNode>
+								</Assign>
+							</Assignment>
+							<Block>
+								<Assign>
+									<Identifier>y</Identifier>
+									<BinExprNode Op="*">
+										<Identifier>y</Identifier>
+										<Identifier>x</Identifier>
+									</BinExprNode>
+								</Assign>
+							</Block>
+						</For>
 					</Block>
 				</IfBlock>
+				<ElseBlock>
+					<Block>
+						<For>
+							<Condition>
+								<IntConst>0</IntConst>
+							</Condition>
+							<Assignment>
+								<Assign>
+									<Identifier>n</Identifier>
+									<BinExprNode Op="+">
+										<Identifier>n</Identifier>
+										<IntConst>1</IntConst>
+									</BinExprNode>
+								</Assign>
+							</Assignment>
+							<Block>
+								<Assign>
+									<Identifier>y</Identifier>
+									<BinExprNode Op="/">
+										<Identifier>y</Identifier>
+										<Identifier>x</Identifier>
+									</BinExprNode>
+								</Assign>
+							</Block>
+						</For>
+					</Block>
+				</ElseBlock>
 			</If>
 			<Return>
-				<Id>ans</Id>
-			</Return>
-		</Block>
-	</FuncDef>
-	<FuncDef type="bool">
-		<Id>XGreaterThanYv2</Id>
-		<Parameter type="float">x</Parameter>
-		<Parameter type="float">y</Parameter>
-		<Block>
-			<Return>
-				<BinExprNode Op=">">
-					<Id>x</Id>
-					<Id>y</Id>
-				</BinExprNode>
-			</Return>
-		</Block>
-	</FuncDef>
-	<FuncDef type="float">
-		<Id>AverageOfThree</Id>
-		<Parameter type="float">x</Parameter>
-		<Parameter type="float">y</Parameter>
-		<Parameter type="float">z</Parameter>
-		<Block>
-			<Decl>
-				<Id type="float">total</Id>
-				<BinExprNode Op="+">
-					<Id>x</Id>
-					<BinExprNode Op="+">
-						<Id>y</Id>
-						<Id>z</Id>
-					</BinExprNode>
-				</BinExprNode>
-			</Decl>
-			<Return>
-				<BinExprNode Op="/">
-					<Id>total</Id>
-					<IntConst>3</IntConst>
-				</BinExprNode>
-			</Return>
-		</Block>
-	</FuncDef>
-	<FuncDef type="string">
-		<Id>JoinStr</Id>
-		<Parameter type="string">s1</Parameter>
-		<Parameter type="string">s2</Parameter>
-		<Block>
-			<Decl>
-				<Id type="string">s3</Id>
-				<BinExprNode Op="+">
-					<Id>s1</Id>
-					<Id>s2</Id>
-				</BinExprNode>
-			</Decl>
-			<Return>
-				<Id>s3</Id>
+				<Identifier>y</Identifier>
 			</Return>
 		</Block>
 	</FuncDef>
 	<Decl>
-		<Id type="float">x</Id>
-		<FloatConst>2.4</FloatConst>
-	</Decl>
-	<Decl>
-		<Id type="float">y</Id>
+		<Identifier type="float">x</Identifier>
 		<FuncCall>
-			<Id>Square</Id>
+			<Identifier>Pow</Identifier>
 			<Arg>
-				<FloatConst>2.5</FloatConst>
+				<FloatConst>2.1</FloatConst>
+			</Arg>
+			<Arg>
+				<IntConst>10</IntConst>
 			</Arg>
 		</FuncCall>
 	</Decl>
 	<Print>
-		<Id>y</Id>
-	</Print>
-	<Print>
-		<FuncCall>
-			<Id>XGreaterThanY</Id>
-			<Arg>
-				<Id>x</Id>
-			</Arg>
-			<Arg>
-				<FloatConst>2.3</FloatConst>
-			</Arg>
-		</FuncCall>
-	</Print>
-	<Print>
-		<FuncCall>
-			<Id>XGreaterThanYv2</Id>
-			<Arg>
-				<FuncCall>
-					<Id>Square</Id>
-					<Arg>
-						<IntConst>15</IntConst>
-					</Arg>
-				</FuncCall>
-			</Arg>
-			<Arg>
-				<Id>y</Id>
-			</Arg>
-		</FuncCall>
-	</Print>
-	<Print>
-		<FuncCall>
-			<Id>AverageOfThree</Id>
-			<Arg>
-				<Id>x</Id>
-			</Arg>
-			<Arg>
-				<Id>y</Id>
-			</Arg>
-			<Arg>
-				<FloatConst>1.2</FloatConst>
-			</Arg>
-		</FuncCall>
-	</Print>
-	<Print>
-		<FuncCall>
-			<Id>JoinStr</Id>
-			<Arg>
-				<StringConst>Hell</StringConst>
-			</Arg>
-			<Arg>
-				<StringConst> Worl</StringConst>
-			</Arg>
-		</FuncCall>
+		<Identifier>x</Identifier>
 	</Print>
 </Program>

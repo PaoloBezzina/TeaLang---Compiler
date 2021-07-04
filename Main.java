@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String filePath = "sampleCode/teaTest2.txt";
+        String filePath = "sampleCode/teaTest4.txt";
 
         File file = new File(filePath);
         String program = "";

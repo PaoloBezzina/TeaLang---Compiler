@@ -18,7 +18,7 @@ public interface Visitor <T>{
 
 	void visit(parser.ASTWhileNode UnnamedParameter);
 
-	//void visit(parser.ASTForNode UnnamedParameter);
+	void visit(parser.ASTForNode UnnamedParameter);
 
 	void visit(parser.ASTFunctionDefinitionNode UnnamedParameter);
 

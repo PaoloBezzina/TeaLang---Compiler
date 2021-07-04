@@ -86,7 +86,7 @@ public class XMLVisitor implements Visitor {
 		// Add identifier
 		try {
 			xmlfile.write(
-					indentation() + "<Id type=\"" + type_str(decl.type) + "\">" + decl.identifier + "</Id>" + "\n");
+					indentation() + "<Identifier type=\"" + type_str(decl.type) + "\">" + decl.identifier + "</Identifier>" + "\n");
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -123,7 +123,7 @@ public class XMLVisitor implements Visitor {
 
 		// Add identifier
 		try {
-			xmlfile.write(indentation() + "<Id>" + assign.identifier + "</Id>" + "\n");
+			xmlfile.write(indentation() + "<Identifier>" + assign.identifier + "</Identifier>" + "\n");
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -393,6 +393,113 @@ public class XMLVisitor implements Visitor {
 		}
 	}
 
+	//bookmark
+	@Override
+	public void visit(parser.ASTForNode fornode) {
+
+		// Add initial <for> tag
+		try {
+			xmlfile.write(indentation() + "<For>" + "\n");
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+
+		// Indent
+		indentation_level++;
+
+		if (fornode.variable != null){
+			// Add <variable> tag if necessary
+			try {
+				xmlfile.write(indentation() + "<Variable>" + "\n");
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+
+			// Indent
+			indentation_level++;
+
+			// Expression
+			fornode.variable.accept(this);
+
+			// Unindent
+			indentation_level--;
+
+			// Add closing tag
+			try {
+				xmlfile.write(indentation() + "</Variable>" + "\n");
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+		}
+
+		// Add <condition> tag
+		try {
+			xmlfile.write(indentation() + "<Condition>" + "\n");
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+
+		// Indent
+		indentation_level++;
+
+		// Expression
+		fornode.expression.accept(this);
+
+		// Unindent
+		indentation_level--;
+
+		// Add closing tag
+		try {
+			xmlfile.write(indentation() + "</Condition>" + "\n");
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+
+		// Add <assignment> tag
+		try {
+			xmlfile.write(indentation() + "<Assignment>" + "\n");
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+
+		// Indent
+		indentation_level++;
+
+		// Expression
+		fornode.assignment.accept(this);
+
+		// Unindent
+		indentation_level--;
+
+		// Add closing tag
+		try {
+			xmlfile.write(indentation() + "</Assignment>" + "\n");
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+
+		// For-block
+		fornode.block.accept(this);
+
+		// Unindent
+		indentation_level--;
+
+		// Add closing tag
+		try {
+			xmlfile.write(indentation() + "</For>" + "\n");
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public void visit(parser.ASTFunctionDefinitionNode func) {
 
@@ -409,7 +516,7 @@ public class XMLVisitor implements Visitor {
 
 		// Function identifier
 		try {
-			xmlfile.write(indentation() + "<Id>" + func.identifier + "</Id>" + "\n");
+			xmlfile.write(indentation() + "<Identifier>" + func.identifier + "</Identifier>" + "\n");
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -599,7 +706,7 @@ public class XMLVisitor implements Visitor {
 
 		// Add initial <id> tag
 		try {
-			xmlfile.write(indentation() + "<Id>");
+			xmlfile.write(indentation() + "<Identifier>");
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -615,7 +722,7 @@ public class XMLVisitor implements Visitor {
 
 		// Add closing tag
 		try {
-			xmlfile.write("</Id>" + "\n");
+			xmlfile.write("</Identifier>" + "\n");
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -666,7 +773,7 @@ public class XMLVisitor implements Visitor {
 
 		// Function identifier
 		try {
-			xmlfile.write(indentation() + "<Id>" + func.identifier + "</Id>" + "\n");
+			xmlfile.write(indentation() + "<Identifier>" + func.identifier + "</Identifier>" + "\n");
 		} catch (IOException e) {
 
 			e.printStackTrace();
