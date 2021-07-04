@@ -65,9 +65,8 @@ public class SemanticAnalyser implements Visitor {
 		// types don't match
 		else {
 			throw new RuntimeException(
-					"Found " + type_str(current_expression_type) + " on line "
-							+ String.valueOf(decl.line_number) + " in definition of '" + decl.identifier
-							+ "', expected " + type_str(decl.type) + ".");
+					"Found " + type_str(current_expression_type) + " on line " + String.valueOf(decl.line_number)
+							+ " in definition of '" + decl.identifier + "', expected " + type_str(decl.type) + ".");
 		}
 	}
 
@@ -98,8 +97,7 @@ public class SemanticAnalyser implements Visitor {
 		else if (current_expression_type != type) {
 			throw new RuntimeException(
 					"Mismatched type for '" + assign.identifier + "' on line " + String.valueOf(assign.line_number)
-							+ ". Expected " + type_str(type) + ", found "
-							+ type_str(current_expression_type) + ".");
+							+ ". Expected " + type_str(type) + ", found " + type_str(current_expression_type) + ".");
 		}
 	}
 
@@ -119,8 +117,7 @@ public class SemanticAnalyser implements Visitor {
 		// If we are not global, check that we return current function return type
 		if (!functions.empty() && current_expression_type != functions.peek()) {
 			throw new RuntimeException("Invalid return type on line " + String.valueOf(ret.line_number) + ". Expected "
-					+ type_str(functions.peek()) + ", found "
-					+ type_str(current_expression_type) + ".");
+					+ type_str(functions.peek()) + ", found " + type_str(current_expression_type) + ".");
 		}
 	}
 
@@ -129,9 +126,12 @@ public class SemanticAnalyser implements Visitor {
 		// Create new scope
 		scopes.add(new SemanticScope());
 
-		// Check whether this is a function block by seeing if we have any current function parameters. If we do, then add them to the current scope.
+		// Check whether this is a function block by seeing if we have any current
+		// function parameters. If we do, then add them to the current scope.
 		for (var param : current_function_parameters) {
-			scopes.back().declare(param.first, param.second, block.line_number);
+			int index = scopes.size() - 1;
+			// Access last element by passing index
+			scopes.get(index).declare(param.first, param.second, block.line_number);
 		}
 
 		// Clear the global function parameters vector
@@ -143,7 +143,7 @@ public class SemanticAnalyser implements Visitor {
 		}
 
 		// Close scope
-		scopes.pop_back();
+		scopes = pop_back(scopes);
 	}
 
 	public void visit(parser.ASTIfNode ifnode) {
@@ -182,6 +182,26 @@ public class SemanticAnalyser implements Visitor {
 		whilenode.block.accept(this);
 	}
 
+	// bookmark
+	public void visit(parser.ASTForNode fornode) {
+
+		// TODO add variable analysis
+
+		// Set current type to while expression
+		fornode.expression.accept(this);
+
+		// Make sure it is boolean
+		if (current_expression_type != parser.TYPE.BOOLEAN) {
+			throw new RuntimeException("Invalid while-condition on line " + String.valueOf(fornode.line_number)
+					+ ", expected boolean expression.");
+		}
+
+		// TODO add assignment analysis
+
+		// Check the while block
+		fornode.block.accept(this);
+	}
+
 	public void visit(parser.ASTFunctionDefinitionNode func) {
 
 		// First check that all enclosing scopes have not already defined the function
@@ -194,10 +214,13 @@ public class SemanticAnalyser implements Visitor {
 				boolean has_params = false;
 				for (var param : func.signature) {
 					has_params = true;
-					signature += type_str(new auto(param)) + ", ";
+					// signature += type_str(new auto(param)) + ", ";
+					signature += type_str(param) + ", ";
 				}
-				signature.pop_back(); // remove last whitespace
-				signature.pop_back(); // remove last comma
+				// signature.pop_back(); // remove last whitespace
+				signature = pop_back(signature);
+				// signature.pop_back(); // remove last comma
+				signature = pop_back(signature);
 				signature += ")";
 
 				throw new RuntimeException("Error on line " + String.valueOf(func.line_number) + ". Function "
@@ -206,7 +229,9 @@ public class SemanticAnalyser implements Visitor {
 		}
 
 		// Add function to symbol table
-		scopes.back().declare(func.identifier, func.type, func.signature, func.line_number);
+		int index = scopes.size() - 1;
+		// Access last element by passing index
+		scopes.get(index).declare(func.identifier, func.type, func.signature, func.line_number);
 
 		// Push current function type onto function stack
 		functions.push(func.type);
@@ -228,19 +253,18 @@ public class SemanticAnalyser implements Visitor {
 		functions.pop();
 	}
 
-	public void visit(parser.ASTLiteralNode lit)
-	{
+	public void visit(parser.ASTLiteralNode lit) {
 		String type = lit.getType();
 
-		if(type.equals("Integer")){
+		if (type.equals("Integer")) {
 			current_expression_type = parser.TYPE.INT;
-		}else if(type.equals("Float")){
+		} else if (type.equals("Float")) {
 			current_expression_type = parser.TYPE.FLOAT;
-		}else if(type.equals("Boolean")){
+		} else if (type.equals("Boolean")) {
 			current_expression_type = parser.TYPE.BOOLEAN;
-		}else if(type.equals("String")){
+		} else if (type.equals("String")) {
 			current_expression_type = parser.TYPE.STRING;
-		}else{
+		} else {
 			throw new RuntimeException("Invalid type found");
 		}
 	}
@@ -285,9 +309,9 @@ public class SemanticAnalyser implements Visitor {
 
 			// only one is string, error
 			else if (l_type == parser.TYPE.STRING || r_type == parser.TYPE.STRING) {
-				throw new RuntimeException("Mismatched operands for '+' operator, found "
-						+ type_str(l_type) + " on the left, but " + type_str(r_type)
-						+ " on the right (line " + String.valueOf(bin.line_number) + ").");
+				throw new RuntimeException(
+						"Mismatched operands for '+' operator, found " + type_str(l_type) + " on the left, but "
+								+ type_str(r_type) + " on the right (line " + String.valueOf(bin.line_number) + ").");
 			}
 
 			// real/int possibilities remain. If both int, then result is int, otherwise
@@ -403,8 +427,10 @@ public class SemanticAnalyser implements Visitor {
 					has_params = true;
 					func_name += type_str(param) + ", ";
 				}
-				func_name.pop_back(); // remove last whitespace
-				func_name.pop_back(); // remove last comma
+				// func_name.pop_back(); // remove last whitespace
+				func_name = pop_back(func_name);
+				// func_name.pop_back(); // remove last comma
+				func_name = pop_back(func_name);
 				func_name += ")";
 				throw new RuntimeException(
 						"Function '" + func_name + "' appearing on line " + String.valueOf(func.line_number)
@@ -416,49 +442,67 @@ public class SemanticAnalyser implements Visitor {
 		current_expression_type = scopes.get(i).type(func.identifier, signature);
 	}
 
-public boolean returns(parser.ASTStatementNode stmt)
-{
+	public boolean returns(parser.ASTStatementNode stmt) {
 
-	// Base case: if the statement is a return statement, then it definitely returns
-	if (stmt instanceof parser.ASTReturnNode ? (parser.ASTReturnNode)stmt : null != null)
-	{
-		return true;
-	}
+		// Base case: if the statement is a return statement, then it definitely returns
+		if (stmt instanceof parser.ASTReturnNode) {
+			return true;
+		}
 
-	// For a block, if at least one statement returns, then the block returns
-	if (auto block = stmt instanceof parser.ASTBlockNode ? (parser.ASTBlockNode)stmt : null != null)
-	{
-		for (var blk_stmt : block.statements)
-		{
-			if (returns(blk_stmt))
-			{
-				return true;
+		// For a block, if at least one statement returns, then the block returns
+		if (stmt instanceof parser.ASTBlockNode) {
+			var block = (parser.ASTBlockNode) stmt;
+			for (var blk_stmt : block.statements) {
+				if (returns(blk_stmt)) {
+					return true;
+				}
 			}
 		}
-	}
 
-	// An if-(else) block returns only if both the if and the else statement return.
-	if (auto ifstmt = stmt instanceof parser.ASTIfNode ? (parser.ASTIfNode)stmt : null != null)
-	{
-		if (ifstmt.else_block)
-		{
-			return (returns(ifstmt.if_block) && returns(ifstmt.else_block));
+		// An if-(else) block returns only if both the if and the else statement return.
+		if (stmt instanceof parser.ASTIfNode) {
+			var ifstmt = (parser.ASTIfNode) stmt;
+			if (ifstmt.else_block != null) {
+				return (returns(ifstmt.if_block) && returns(ifstmt.else_block));
+			}
 		}
+
+		// A while block returns if its block returns
+		if (stmt instanceof parser.ASTWhileNode) {
+			var whilestmt = (parser.ASTWhileNode) stmt;
+			return returns(whilestmt.block);
+		}
+
+		// Other statements do not return
+		else {
+			return false;
+		}
+
 	}
 
-	// A while block returns if its block returns
-	if (auto whilestmt = stmt instanceof parser.ASTWhileNode ? (parser.ASTWhileNode)stmt : null != null)
-	{
-		return returns(whilestmt.block);
+	public static SemanticScope back(ArrayList<SemanticScope> scope) {
+		int index = scope.size() - 1;
+		// Access last element by passing index
+		return scope.get(index);
 	}
 
-	// Other statements do not return
-	else
-	{
-		return false;
+	public static ArrayList<SemanticScope> pop_back(ArrayList<SemanticScope> scope) {
+		int index = scope.size() - 1;
+		// Delete last element by passing index
+		scope.remove(index);
+		return scope;
 	}
 
-}
+	public static String pop_back(String str) {
+		return removeLastChars(str, 1);
+	}
+
+	public static String removeLastChars(String str, int chars) {
+		if (str.length() > 0) {
+			return str.substring(0, str.length() - chars);
+		}
+		return str;
+	}
 
 	public String type_str(parser.TYPE t) {
 
