@@ -5,22 +5,12 @@ import java.io.*;
 import parser.*;
 import parser.visitor.*;
 
-/* 
-std::ofstream xmlfile;
-unsigned int indentation_level;
-const std::string TAB = "    ";
-std::string indentation();
-std::string type_str(parser::TYPE);
-std::string xml_safe_op(std::string);
- */
-
-public class XMLVisitor implements Visitor{
+public class XMLVisitor implements Visitor {
 
 	String filePath = "program.xml";
 	FileWriter xmlfile;
 	private int indentation_level;
 	private String TAB = String.valueOf('\t');
-
 
 	public XMLVisitor() {
 		this.indentation_level = 0;
@@ -42,21 +32,19 @@ public class XMLVisitor implements Visitor{
 	public final String indentation() {
 
 		String tabs = "";
-	
+
 		// Tab character for each indentation level
-		for(int i = 0; i < indentation_level; i++)
+		for (int i = 0; i < indentation_level; i++)
 			tabs += TAB;
-	
+
 		return tabs;
 	}
 
 	@Override
-	public void visit(parser.ASTProgramNode program)
-	{
+	public void visit(parser.ASTProgramNode program) {
 		// Add initial <program> tag
-		//xmlfile << indentation() << "<program>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<program>" + "\n");
+			xmlfile.write(indentation() + "<Program>" + "\n");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -65,8 +53,7 @@ public class XMLVisitor implements Visitor{
 		indentation_level++;
 
 		// For each statement, accept
-		for (var statement : program.statements)
-		{
+		for (var statement : program.statements) {
 			statement.accept(this);
 		}
 
@@ -74,25 +61,22 @@ public class XMLVisitor implements Visitor{
 		indentation_level--;
 
 		// Add closing tag
-		//xmlfile << indentation() << "</program>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "</program>" + "\n");
+			xmlfile.write(indentation() + "</Program>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void visit(parser.ASTDeclarationNode decl)
-	{
+	public void visit(parser.ASTDeclarationNode decl) {
 
 		// Add initial <decl> tag
-		//xmlfile << indentation() << "<decl>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<decl>" + "\n");
+			xmlfile.write(indentation() + "<Decl>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -100,11 +84,11 @@ public class XMLVisitor implements Visitor{
 		indentation_level++;
 
 		// Add identifier
-		//xmlfile << indentation() << "<id type = \"" + type_str(decl.type) + "\">" << decl.identifier << "</id>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<id type = \"" + type_str(decl.type) + "\">" + decl.identifier + "</id>" + "\n");
+			xmlfile.write(
+					indentation() + "<Id type=\"" + type_str(decl.type) + "\">" + decl.identifier + "</Id>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -115,25 +99,22 @@ public class XMLVisitor implements Visitor{
 		indentation_level--;
 
 		// Add closing tag
-		//xmlfile << indentation() << "</decl>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "</decl>" + "\n");
+			xmlfile.write(indentation() + "</Decl>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void visit(parser.ASTAssignmentNode assign)
-	{
+	public void visit(parser.ASTAssignmentNode assign) {
 
 		// Add initial <assign> tag
-		//xmlfile << indentation() << "<assign>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<assign>" + "\n");
+			xmlfile.write(indentation() + "<Assign>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -141,11 +122,10 @@ public class XMLVisitor implements Visitor{
 		indentation_level++;
 
 		// Add identifier
-		//xmlfile << indentation() << "<id>" << assign.identifier << "</id>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<id>" + assign.identifier + "</id>"  + "\n");
+			xmlfile.write(indentation() + "<Id>" + assign.identifier + "</Id>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -156,26 +136,23 @@ public class XMLVisitor implements Visitor{
 		indentation_level--;
 
 		// Add closing tag
-		//xmlfile << indentation() << "</assign>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "</assign>" + "\n");
+			xmlfile.write(indentation() + "</Assign>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
 	}
 
 	@Override
-	public void visit(parser.ASTPrintNode print)
-	{
+	public void visit(parser.ASTPrintNode print) {
 
 		// Add initial <print> tag
-		//xmlfile << indentation() << "<print>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<print>" + "\n");
+			xmlfile.write(indentation() + "<Print>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -190,23 +167,21 @@ public class XMLVisitor implements Visitor{
 
 		// Add closing tag
 		try {
-			xmlfile.write(indentation() + "</print>" + "\n");
+			xmlfile.write(indentation() + "</Print>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void visit(parser.ASTReturnNode ret)
-	{
+	public void visit(parser.ASTReturnNode ret) {
 
 		// Add initial <return> tag
-		//xmlfile << indentation() << "<return>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<return>" + "\n");
+			xmlfile.write(indentation() + "<Return>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -220,25 +195,22 @@ public class XMLVisitor implements Visitor{
 		indentation_level--;
 
 		// Add closing tag
-		//xmlfile << indentation() << "</return>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "</return>" + "\n");
+			xmlfile.write(indentation() + "</Return>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void visit(parser.ASTBlockNode block)
-	{
+	public void visit(parser.ASTBlockNode block) {
 
 		// Add initial <block> tag
-		//xmlfile << indentation() << "<block>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<block>" + "\n");
+			xmlfile.write(indentation() + "<Block>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -246,8 +218,7 @@ public class XMLVisitor implements Visitor{
 		indentation_level++;
 
 		// For each statement, accept
-		for (var statement : block.statements)
-		{
+		for (var statement : block.statements) {
 			statement.accept(this);
 		}
 
@@ -255,25 +226,22 @@ public class XMLVisitor implements Visitor{
 		indentation_level--;
 
 		// Add closing tag
-		//xmlfile << indentation() << "</block>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "</block>" + "\n");
+			xmlfile.write(indentation() + "</Block>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void visit(parser.ASTIfNode ifnode)
-	{
+	public void visit(parser.ASTIfNode ifnode) {
 
 		// Add initial <if> tag
-		//xmlfile << indentation() << "<if>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<if>" + "\n");
+			xmlfile.write(indentation() + "<If>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -281,11 +249,10 @@ public class XMLVisitor implements Visitor{
 		indentation_level++;
 
 		// Add <condition> tag
-		//xmlfile << indentation() << "<condition>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<condition>" + "\n");
+			xmlfile.write(indentation() + "<Condition>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -299,20 +266,18 @@ public class XMLVisitor implements Visitor{
 		indentation_level--;
 
 		// Add closing tag
-		//xmlfile << indentation() << "</condition>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "</condition>" + "\n");
+			xmlfile.write(indentation() + "</Condition>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
 		// Add <if-block> tag
-		//xmlfile << indentation() << "<if-block>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<if-block>" + "\n");
+			xmlfile.write(indentation() + "<IfBlock>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -326,27 +291,21 @@ public class XMLVisitor implements Visitor{
 		indentation_level--;
 
 		// Add closing tag
-		//xmlfile << indentation() << "</if-block>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "</if-block>" + "\n");
+			xmlfile.write(indentation() + "</IfBlock>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
-		// Unindent
-		indentation_level--;
-
 		// If there is an else-block
-		if (ifnode.else_block != null)
-		{
+		if (ifnode.else_block != null) {
 
 			// Add <else-block> tag
-			//xmlfile << indentation() << "<else-block>" << std::endl;
 			try {
-				xmlfile.write(indentation() + "<else-block>" + "\n");
+				xmlfile.write(indentation() + "<ElseBlock>" + "\n");
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
 
@@ -360,35 +319,34 @@ public class XMLVisitor implements Visitor{
 			indentation_level--;
 
 			// Add closing tag
-			//xmlfile << indentation() << "</else-block>" << std::endl;
 			try {
-				xmlfile.write(indentation() + "</else-block>" + "\n");
+				xmlfile.write(indentation() + "</ElseBlock>" + "\n");
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
 		}
 
+		// Unindent
+		indentation_level--;
+
 		// Add closing tag
-		//xmlfile << indentation() << "</if>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "</if>" + "\n");
+			xmlfile.write(indentation() + "</If>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void visit(parser.ASTWhileNode whilenode)
-	{
+	public void visit(parser.ASTWhileNode whilenode) {
 
 		// Add initial <while> tag
-		//xmlfile << indentation() << "<while>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<while>" + "\n");
+			xmlfile.write(indentation() + "<While>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -396,11 +354,10 @@ public class XMLVisitor implements Visitor{
 		indentation_level++;
 
 		// Add <condition> tag
-		//xmlfile << indentation() << "<condition>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<condition>" + "\n");
+			xmlfile.write(indentation() + "<Condition>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -414,11 +371,10 @@ public class XMLVisitor implements Visitor{
 		indentation_level--;
 
 		// Add closing tag
-		//xmlfile << indentation() << "</condition>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "</condition>" + "\n");
+			xmlfile.write(indentation() + "</Condition>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -429,25 +385,22 @@ public class XMLVisitor implements Visitor{
 		indentation_level--;
 
 		// Add closing tag
-		//xmlfile << indentation() << "</while>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "</while>" + "\n");
+			xmlfile.write(indentation() + "</While>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void visit(parser.ASTFunctionDefinitionNode func)
-	{
+	public void visit(parser.ASTFunctionDefinitionNode func) {
 
 		// Add initial <func-def> tag
-		//xmlfile << indentation() << "<func-def type = \"" + type_str(func.type) + "\">" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<func-def type = \"" + type_str(func.type) + "\">" + "\n");
+			xmlfile.write(indentation() + "<FuncDef type=\"" + type_str(func.type) + "\">" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -455,22 +408,20 @@ public class XMLVisitor implements Visitor{
 		indentation_level++;
 
 		// Function identifier
-		//xmlfile << indentation() << "<id>" + func.identifier + "</id>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<id>" + func.identifier + "</id>" + "\n");
+			xmlfile.write(indentation() + "<Id>" + func.identifier + "</Id>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
 		// For each parameter
-		for (var param : func.parameters)
-		{
-			//xmlfile << indentation() << "<param type = \"" + type_str(param.second) + "\">" + param.first + "</param>" << std::endl;
+		for (var param : func.parameters) {
 			try {
-				xmlfile.write(indentation() + "<param type = \"" + type_str(param.second) + "\">" + param.first + "</param>" + "\n");
+				xmlfile.write(indentation() + "<Parameter type=\"" + type_str(param.second) + "\">" + param.first
+						+ "</Parameter>" + "\n");
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
 		}
@@ -482,401 +433,286 @@ public class XMLVisitor implements Visitor{
 		indentation_level--;
 
 		// Add closing tag
-		//xmlfile << indentation() << "</func-def>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "</func-def>" + "\n");
+			xmlfile.write(indentation() + "</FuncDef>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
 	}
 
 	@Override
-	public void visit(parser.ASTLiteralNode lit)
-	{
-		//String type = lit.getType();
+	public void visit(parser.ASTLiteralNode lit) {
+		String type = lit.getType();
+		if (type.equals("Integer")) {
+			// Add initial <int> tag
+			try {
+				xmlfile.write(indentation() + "<IntConst>");
+			} catch (IOException e) {
 
-		switch (lit.getType()) {
+				e.printStackTrace();
+			}
 
-			case "Integer":
-				// Add initial <int> tag
-				//xmlfile << indentation() << "<int>";
-				try {
-					xmlfile.write(indentation() + "<int>");
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
+			// Add value
+			try {
+				xmlfile.write(String.valueOf(lit.value));
+			} catch (IOException e) {
 
-				// Add value
-				//xmlfile << String.valueOf(lit.val);
-				try {
-					xmlfile.write(indentation() + String.valueOf(lit.value));
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
+				e.printStackTrace();
+			}
 
-				// Add closing tag
-				//xmlfile << "</int>" << std::endl;
-				try {
-					xmlfile.write(indentation() + "</int>" + "\n");
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
+			// Add closing tag
+			try {
+				xmlfile.write("</IntConst>" + "\n");
+			} catch (IOException e) {
 
-			case "Float":
-				// Add initial <float> tag
-				//xmlfile << indentation() << "<float>";
-				try {
-					xmlfile.write(indentation() + "<float>");
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
+				e.printStackTrace();
+			}
 
-				// Add value
-				//xmlfile << String.valueOf(lit.value);
-				try {
-					xmlfile.write(indentation() + String.valueOf(lit.value));
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
+		} else if (type.equals("Float")) {
+			// Add initial <float> tag
+			try {
+				xmlfile.write(indentation() + "<FloatConst>");
+			} catch (IOException e) {
 
-				// Add closing tag
-				//xmlfile << "</float>" << std::endl;
-				try {
-					xmlfile.write(indentation() + "</float>" + "\n");
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
+				e.printStackTrace();
+			}
 
-			case "Boolean":
-				// Add initial <bool> tag
-				//xmlfile << indentation() << "<bool>";
-				try {
-					xmlfile.write(indentation() + "<bool>");
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
+			// Add value
+			try {
+				xmlfile.write(String.valueOf(lit.value));
+			} catch (IOException e) {
 
-				// Add value
-				//xmlfile << ((lit->val) ? "true" : "false");
-				if (String.valueOf(lit.value)=="true"){
-					try {
-						xmlfile.write(indentation() + "true");
-					} catch (IOException e) {
-						
-						e.printStackTrace();
-					}
-				}else{
-					try {
-						xmlfile.write(indentation() + "false");
-					} catch (IOException e) {
-						
-						e.printStackTrace();
-					}
-				}
-	
-				// Add closing tag
-				//xmlfile << "</bool>" << std::endl;
-				try {
-					xmlfile.write(indentation() + "</bool>" + "\n");
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
+				e.printStackTrace();
+			}
 
-			case "String":
-				// Add initial <string> tag
-				//xmlfile << indentation() << "<string>";
-				try {
-					xmlfile.write(indentation() + "<string>");
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
-			
-				// Add value
-				//xmlfile << lit.val;
-				try {
-					xmlfile.write(indentation() + lit.value);
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
-			
-				// Add closing tag
-				//xmlfile << "</string>" << std::endl;
-				try {
-					xmlfile.write(indentation() + "</string>" + "\n");
-				} catch (IOException e) {
-					
-					e.printStackTrace();
-				}
+			// Add closing tag
+			try {
+				xmlfile.write("</FloatConst>" + "\n");
+			} catch (IOException e) {
 
-			default:
+				e.printStackTrace();
+			}
+
+		} else if (type.equals("Boolean")) {
+			// Add initial <bool> tag
+			try {
+				xmlfile.write(indentation() + "<BoolConst>");
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+
+			// Add value
+			if (String.valueOf(lit.value) == "true") {
 				try {
-					xmlfile.write(indentation() + "invalid Literal Node tyoe");
+					xmlfile.write("true");
 				} catch (IOException e) {
-					
+
 					e.printStackTrace();
 				}
+			} else {
+				try {
+					xmlfile.write("false");
+				} catch (IOException e) {
+
+					e.printStackTrace();
+				}
+			}
+
+			// Add closing tag
+			try {
+				xmlfile.write("</BoolConst>" + "\n");
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+
+		} else if (type.equals("String")) {
+			// Add initial <string> tag
+			try {
+				xmlfile.write(indentation() + "<StringConst>");
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+
+			// Add value
+			try {
+				xmlfile.write(String.valueOf(lit.value));
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+
+			// Add closing tag
+			try {
+				xmlfile.write("</StringConst>" + "\n");
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+
+		} else {
+			try {
+				xmlfile.write(indentation() + "-Invalid Literal Node type-" + "\n");
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
 		}
-
-	}
-/* 
-	@Override
-	public void visit(parser.ASTLiteralNode<Integer> lit)
-	{
-
-		// Add initial <int> tag
-		//xmlfile << indentation() << "<int>";
-		xmlfile.write(indentation() + "<int>");
-
-		// Add value
-		//xmlfile << String.valueOf(lit.val);
-		xmlfile.write(indentation() + String.valueOf(lit.val));
-
-		// Add closing tag
-		//xmlfile << "</int>" << std::endl;
-		xmlfile.write(indentation() + "</int>" + "\n");
 	}
 
-	@Override
-	public void visit(parser.ASTLiteralNode<Float> lit)
-	{
+	public void visit(parser.ASTBinaryExprNode bin) {
 
-		// Add initial <float> tag
-		//xmlfile << indentation() << "<float>";
-		xmlfile.write(indentation() + "<float>");
-
-		// Add value
-		//xmlfile << String.valueOf(lit.value);
-		xmlfile.write(indentation() + String.valueOf(lit.value));
-
-		// Add closing tag
-		//xmlfile << "</float>" << std::endl;
-		xmlfile.write(indentation() + "</float>" + "\n");
-	}
-
-	@Override
-	public void visit(parser.ASTLiteralNode<Boolean> lit)
-	{
-
-		// Add initial <bool> tag
-		//xmlfile << indentation() << "<bool>";
-		xmlfile.write(indentation() + "<bool>");
-
-		// Add value
-		//xmlfile << ((lit->val) ? "true" : "false");
-		if (lit.value){
-			xmlfile.write(indentation() + "true");
-		}else{
-			xmlfile.write(indentation() + "false");
-		}
-	
-		// Add closing tag
-		//xmlfile << "</bool>" << std::endl;
-		xmlfile.write(indentation() + "</bool>" + "\n");
-	}
-
-
-//C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following method implementation was not found:
-	public void visit(parser.ASTLiteralNode<String> lit)
-	{
-    
-		// Add initial <string> tag
-		//xmlfile << indentation() << "<string>";
-		xmlfile.write(indentation() + "<string>");
-    
-		// Add value
-		//xmlfile << lit.val;
-		xmlfile.write(indentation() + lit.value);
-    
-		// Add closing tag
-		//xmlfile << "</string>" << std::endl;
-		xmlfile.write(indentation() + "</string>" + "\n");
-	}
- */
-//C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following method implementation was not found:
-	public void visit(parser.ASTBinaryExprNode bin)
-	{
-    
 		// Add initial <bin> tag
-		//mlfile << indentation() << "<bin op = \"" + xml_safe_op(bin.op) + "\">" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<bin op = \"" + xml_safe_op(bin.identifier) + "\">" + "\n");
+			xmlfile.write(indentation() + "<BinExprNode Op=\"" + xml_safe_op(bin.identifier) + "\">" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
-    
+
 		// Indent
 		indentation_level++;
-    
+
 		// Left node
 		bin.left.accept(this);
-    
+
 		// Right node
 		bin.right.accept(this);
-    
+
 		// Unindent
 		indentation_level--;
-    
+
 		// Add closing tag
-		//xmlfile << indentation() << "</bin>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "</bin>" + "\n");
+			xmlfile.write(indentation() + "</BinExprNode>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
 
-//C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following method implementation was not found:
-	public void visit(parser.ASTIdentifierNode id)
-	{
-    
+	public void visit(parser.ASTIdentifierNode id) {
+
 		// Add initial <id> tag
-		//xmlfile << indentation() << "<id>";
 		try {
-			xmlfile.write(indentation() + "<id>");
+			xmlfile.write(indentation() + "<Id>");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
-    
+
 		// Add value
-		//xmlfile << id.identifier;
 		try {
-			xmlfile.write(indentation() + id.identifier);
+			xmlfile.write(id.identifier);
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
-    
+
 		// Add closing tag
-		//xmlfile << "</id>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "</id>" + "\n");
+			xmlfile.write("</Id>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
-    
+
 	}
 
-//C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following method implementation was not found:
-	public void visit(parser.ASTUnaryExprNode un)
-	{
-    
+	public void visit(parser.ASTUnaryExprNode un) {
+
 		// Add initial <unary> tag
-		//xmlfile << indentation() << "<unary op = \"" + un.unary_op + "\">" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<unary op = \"" + un.unary_op + "\">" + "\n");
+			xmlfile.write(indentation() + "<Unary Op=\"" + un.unary_op + "\">" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
-    
+
 		// Indent
 		indentation_level++;
-    
+
 		// Value
 		un.expr.accept(this);
-    
+
 		// Unindent
 		indentation_level--;
-    
+
 		// Add closing tag
-		//xmlfile << indentation() << "</unary>" << std::endl;
 		try {
-			xmlfile.write(indentation() +  "</unary>" + "\n");
+			xmlfile.write(indentation() + "</Unary>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
 
-//C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following method implementation was not found:
-	public void visit(parser.ASTFunctionCallNode func)
-	{
-    
+	public void visit(parser.ASTFunctionCallNode func) {
+
 		// Add initial <func-call> tag
-		//xmlfile << indentation() << "<func-call>" << std::endl;
 		try {
-			xmlfile.write(indentation() +  "<func-call>" + "\n");
+			xmlfile.write(indentation() + "<FuncCall>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
-    
+
 		// Indent
 		indentation_level++;
-    
+
 		// Function identifier
-		//xmlfile << indentation() << "<id>" + func.identifier + "</id>" << std::endl;
 		try {
-			xmlfile.write(indentation() + "<id>" + func.identifier + "</id>" + "\n");
+			xmlfile.write(indentation() + "<Id>" + func.identifier + "</Id>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
-    
+
 		// For each parameter
-		for (var param : func.statements)
-		{
-			//xmlfile << indentation() << "<arg>" << std::endl;
+		for (var param : func.statements) {
 			try {
-				xmlfile.write(indentation() +  "<arg>" + "\n");
+				xmlfile.write(indentation() + "<Arg>" + "\n");
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
-    
+
 			// Indent
 			indentation_level++;
-    
+
 			// Parameter
 			param.accept(this);
-    
+
 			// Unindent
-			indentation_level++;
-    
-			//xmlfile << indentation() << "</arg>" << std::endl;
+			indentation_level--;
+
 			try {
-				xmlfile.write(indentation() +  "</arg>" + "\n");
+				xmlfile.write(indentation() + "</Arg>" + "\n");
 			} catch (IOException e) {
-				
+
 				e.printStackTrace();
 			}
 		}
-    
+
 		// Unindent
 		indentation_level--;
-    
+
 		// Add closing tag
-		//xmlfile << indentation() << "</func-call>" << std::endl;
 		try {
-			xmlfile.write(indentation() +  "</func-call>" + "\n");
+			xmlfile.write(indentation() + "</FuncCall>" + "\n");
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
 
-//C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following method implementation was not found:
-	public String type_str(parser.TYPE t)
-	{
-    
-		switch (t)
-		{
+	public String type_str(parser.TYPE t) {
+
+		switch (t) {
 			case INT:
 				return "int";
 			case FLOAT:
@@ -890,25 +726,23 @@ public class XMLVisitor implements Visitor{
 		}
 	}
 
-//C++ TO JAVA CONVERTER WARNING: The original C++ declaration of the following method implementation was not found:
-	public String xml_safe_op(String op)
-	{
-    
-		if (op.equals("<"))
-		{
-			return "&lt;";
+	public String xml_safe_op(String op) {
+
+		if (op.equals("<")) {
+			return "<";
+			//return "&lt;";
 		}
-		if (op.equals(">"))
-		{
-			return "&gt;";
+		if (op.equals(">")) {
+			return ">";
+			//return "&gt;";
 		}
-		if (op.equals("<="))
-		{
-			return "&lt;=";
+		if (op.equals("<=")) {
+			return "<=";
+			//return "&lt;=";
 		}
-		if (op.equals(">="))
-		{
-			return "&gt;=";
+		if (op.equals(">=")) {
+			return ">=";
+			//return "&gt;=";
 		}
 		return op;
 	}
