@@ -1,49 +1,49 @@
 <Program>
-	<FuncDef type="bool">
-		<Identifier>f</Identifier>
-		<Parameter type="int">x</Parameter>
+	<FuncDef type="int">
+		<Identifier>factorial</Identifier>
+		<Parameter type="int">n</Parameter>
 		<Block>
 			<If>
 				<Condition>
-					<BinExprNode Op=">">
-						<Identifier>x</Identifier>
-						<IntConst>2</IntConst>
+					<BinExprNode Op="==">
+						<Identifier>n</Identifier>
+						<IntConst>1</IntConst>
 					</BinExprNode>
 				</Condition>
 				<IfBlock>
 					<Block>
 						<Return>
-							<BoolConst>true</BoolConst>
+							<IntConst>1</IntConst>
 						</Return>
 					</Block>
 				</IfBlock>
 				<ElseBlock>
 					<Block>
-						<If>
-							<Condition>
-								<BinExprNode Op="<">
-									<Identifier>x</Identifier>
-									<IntConst>0</IntConst>
-								</BinExprNode>
-							</Condition>
-							<IfBlock>
-								<Block>
-									<Return>
-										<BoolConst>false</BoolConst>
-									</Return>
-								</Block>
-							</IfBlock>
-							<ElseBlock>
-								<Block>
-									<Print>
-										<StringConst>I don't return her</StringConst>
-									</Print>
-								</Block>
-							</ElseBlock>
-						</If>
+						<Return>
+							<BinExprNode Op="*">
+								<Identifier>n</Identifier>
+								<FuncCall>
+									<Identifier>factorial</Identifier>
+									<Arg>
+										<BinExprNode Op="-">
+											<Identifier>n</Identifier>
+											<IntConst>1</IntConst>
+										</BinExprNode>
+									</Arg>
+								</FuncCall>
+							</BinExprNode>
+						</Return>
 					</Block>
 				</ElseBlock>
 			</If>
 		</Block>
 	</FuncDef>
+	<Print>
+		<FuncCall>
+			<Identifier>factorial</Identifier>
+			<Arg>
+				<IntConst>10</IntConst>
+			</Arg>
+		</FuncCall>
+	</Print>
 </Program>

@@ -23,9 +23,6 @@ public class SemanticAnalyser implements Visitor {
 		scopes.add(global_scope);
 	}
 
-	// C++ TO JAVA CONVERTER TODO TASK: The implementation of the following method
-	// could not be found:
-	// public final void close();
 
 	@Override
 	public void visit(parser.ASTProgramNode prog) {
@@ -182,7 +179,6 @@ public class SemanticAnalyser implements Visitor {
 		whilenode.block.accept(this);
 	}
 
-	// bookmark
 	public void visit(parser.ASTForNode fornode) {
 
 		// TODO add variable analysis
@@ -211,15 +207,12 @@ public class SemanticAnalyser implements Visitor {
 				// Determine line number of error and the corresponding function signature
 				int line = scope.declaration_line(func.identifier, func.signature);
 				String signature = "(";
-				boolean has_params = false;
 				for (var param : func.signature) {
-					has_params = true;
-					// signature += type_str(new auto(param)) + ", ";
 					signature += type_str(param) + ", ";
 				}
-				// signature.pop_back(); // remove last whitespace
+				// remove last whitespace
 				signature = pop_back(signature);
-				// signature.pop_back(); // remove last comma
+				// remove last comma
 				signature = pop_back(signature);
 				signature += ")";
 
@@ -361,8 +354,6 @@ public class SemanticAnalyser implements Visitor {
 
 		// Determine the inner-most scope in which the value is declared
 		int i;
-		// for (i = scopes.size() - 1; !scopes[i].already_declared(id.identifier); i--)
-		// {
 		for (i = scopes.size() - 1; !scopes.get(i).already_declared(id.identifier); i--) {
 			if (i <= 0) {
 				throw new RuntimeException(
@@ -372,7 +363,6 @@ public class SemanticAnalyser implements Visitor {
 		}
 
 		// Update current expression type
-		// current_expression_type = scopes[i].type(id.identifier);
 		current_expression_type = scopes.get(i).type(id.identifier);
 	}
 
@@ -425,9 +415,9 @@ public class SemanticAnalyser implements Visitor {
 				for (var param : signature) {
 					func_name += type_str(param) + ", ";
 				}
-				// func_name.pop_back(); // remove last whitespace
+				// remove last whitespace
 				func_name = pop_back(func_name);
-				// func_name.pop_back(); // remove last comma
+				// remove last comma
 				func_name = pop_back(func_name);
 				func_name += ")";
 				throw new RuntimeException(

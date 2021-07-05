@@ -4,12 +4,8 @@ package lexer;
 
 public class Token {
 
-	// C++ TO JAVA CONVERTER TODO TASK: The implementation of the following method
-	// could not be found:
-	// Token();
-	
-	public Token(){
-		
+	public Token() {
+
 	}
 
 	public Token(int final_state, String value) {
@@ -57,11 +53,6 @@ public class Token {
 				if (value.equals("set")) {
 					return TOKENS.TOK_SET;
 				}
-
-				// TODO: remove this state and replace with tealang function decleration
-				if (value.equals("def")) {
-					return TOKENS.TOK_DEF;
-				}
 				if (value.equals("return")) {
 					return TOKENS.TOK_RETURN;
 				}
@@ -105,7 +96,7 @@ public class Token {
 					return TOKENS.TOK_NOT;
 				}
 				return TOKENS.TOK_IDENTIFIER;
-				
+
 			case 14:
 			case 16:
 				return TOKENS.TOK_COMMENT;

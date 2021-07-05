@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String filePath = "sampleCode/teaTest.txt";
+        String filePath = "sampleCode/teaTest5.txt";
 
         File file = new File(filePath);
         String program = "";
