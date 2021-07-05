@@ -422,9 +422,7 @@ public class SemanticAnalyser implements Visitor {
 		for (i = scopes.size() - 1; !scopes.get(i).already_declared(func.identifier, signature); i--) {
 			if (i <= 0) {
 				String func_name = func.identifier + "(";
-				boolean has_params = false;
 				for (var param : signature) {
-					has_params = true;
 					func_name += type_str(param) + ", ";
 				}
 				// func_name.pop_back(); // remove last whitespace

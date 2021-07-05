@@ -1,99 +1,49 @@
 <Program>
-	<FuncDef type="float">
-		<Identifier>Pow</Identifier>
-		<Parameter type="float">x</Parameter>
-		<Parameter type="int">n</Parameter>
+	<FuncDef type="bool">
+		<Identifier>f</Identifier>
+		<Parameter type="int">x</Parameter>
 		<Block>
-			<Decl>
-				<Identifier type="float">y</Identifier>
-				<FloatConst>1.0</FloatConst>
-			</Decl>
 			<If>
 				<Condition>
 					<BinExprNode Op=">">
-						<Identifier>n</Identifier>
-						<IntConst>0</IntConst>
+						<Identifier>x</Identifier>
+						<IntConst>2</IntConst>
 					</BinExprNode>
 				</Condition>
 				<IfBlock>
 					<Block>
-						<For>
-							<Variable>
-								<Decl>
-									<Identifier type="float">v</Identifier>
-									<FloatConst>0.0</FloatConst>
-								</Decl>
-							</Variable>
-							<Condition>
-								<IntConst>0</IntConst>
-							</Condition>
-							<Assignment>
-								<Assign>
-									<Identifier>n</Identifier>
-									<BinExprNode Op="-">
-										<Identifier>n</Identifier>
-										<IntConst>1</IntConst>
-									</BinExprNode>
-								</Assign>
-							</Assignment>
-							<Block>
-								<Assign>
-									<Identifier>y</Identifier>
-									<BinExprNode Op="*">
-										<Identifier>y</Identifier>
-										<Identifier>x</Identifier>
-									</BinExprNode>
-								</Assign>
-							</Block>
-						</For>
+						<Return>
+							<BoolConst>true</BoolConst>
+						</Return>
 					</Block>
 				</IfBlock>
 				<ElseBlock>
 					<Block>
-						<For>
+						<If>
 							<Condition>
-								<IntConst>0</IntConst>
+								<BinExprNode Op="<">
+									<Identifier>x</Identifier>
+									<IntConst>0</IntConst>
+								</BinExprNode>
 							</Condition>
-							<Assignment>
-								<Assign>
-									<Identifier>n</Identifier>
-									<BinExprNode Op="+">
-										<Identifier>n</Identifier>
-										<IntConst>1</IntConst>
-									</BinExprNode>
-								</Assign>
-							</Assignment>
-							<Block>
-								<Assign>
-									<Identifier>y</Identifier>
-									<BinExprNode Op="/">
-										<Identifier>y</Identifier>
-										<Identifier>x</Identifier>
-									</BinExprNode>
-								</Assign>
-							</Block>
-						</For>
+							<IfBlock>
+								<Block>
+									<Return>
+										<BoolConst>false</BoolConst>
+									</Return>
+								</Block>
+							</IfBlock>
+							<ElseBlock>
+								<Block>
+									<Print>
+										<StringConst>I don't return her</StringConst>
+									</Print>
+								</Block>
+							</ElseBlock>
+						</If>
 					</Block>
 				</ElseBlock>
 			</If>
-			<Return>
-				<Identifier>y</Identifier>
-			</Return>
 		</Block>
 	</FuncDef>
-	<Decl>
-		<Identifier type="float">x</Identifier>
-		<FuncCall>
-			<Identifier>Pow</Identifier>
-			<Arg>
-				<FloatConst>2.1</FloatConst>
-			</Arg>
-			<Arg>
-				<IntConst>10</IntConst>
-			</Arg>
-		</FuncCall>
-	</Decl>
-	<Print>
-		<Identifier>x</Identifier>
-	</Print>
 </Program>
