@@ -1,8 +1,6 @@
 package parser;
 
-import parser.*;
 import parser.visitor.Visitor;
-import java.util.*;
 
 /* 
 This might still no be correct

@@ -1,9 +1,6 @@
 package parser;
 
-import parser.*;
 import parser.visitor.Visitor;
-import java.util.*;
-
 public class ASTUnaryExprNode implements ASTExprNode{
 
     public ASTUnaryExprNode(String unary_op, ASTExprNode expr, int line_number) {

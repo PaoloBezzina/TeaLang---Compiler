@@ -1,7 +1,5 @@
 package parser;
 
-import parser.*;
-import lexer.*;
 import java.util.*;
 
 public class Parser {

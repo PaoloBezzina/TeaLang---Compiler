@@ -1,8 +1,6 @@
 package visitor;
 
-import visitor.*;
 import java.io.*;
-import parser.*;
 import parser.visitor.*;
 
 public class XMLVisitor implements Visitor {
@@ -393,7 +391,6 @@ public class XMLVisitor implements Visitor {
 		}
 	}
 
-	//bookmark
 	@Override
 	public void visit(parser.ASTForNode fornode) {
 

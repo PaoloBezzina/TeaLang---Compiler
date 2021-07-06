@@ -1,8 +1,5 @@
 package parser;
 
-import parser.*;
-import java.util.*;
-
 // Types
 public enum TYPE
 {

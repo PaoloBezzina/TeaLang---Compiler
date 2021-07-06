@@ -1,8 +1,6 @@
 package parser;
 
-import parser.*;
 import parser.visitor.Visitor;
-import java.util.*;
 
 public class ASTForNode implements ASTStatementNode {
     public ASTForNode(ASTExprNode expression, ASTAssignmentNode assignment, ASTBlockNode block, int line_number) {
