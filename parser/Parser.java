@@ -572,7 +572,7 @@ public class Parser {
 
 			case TOK_STRING: {
 				// Remove " character from front and end of lexeme
-				String str = current_token.value.substring(1, current_token.value.length() - 2);
+				String str = current_token.value.substring(1, current_token.value.length() - 1);
 
 				// Replace \" with quote
 				int pos = str.indexOf("\\\"");

@@ -17,12 +17,12 @@ public class SemanticScope {
 
 	public final boolean already_declared(String identifier, ArrayList<parser.TYPE> signature) {
 
-		// If key is not present in multimap
+		// If key is not present in hashmap
 		if (!function_symbol_table.containsKey(identifier)) {
 			return false;
 		}
 
-		// Check signature for each function in multimap
+		// Check signature for each function in hashmap
 		for (String key : function_symbol_table.keySet()) {
 
 			for (var funcs : function_symbol_table.get(key)) {
@@ -66,7 +66,7 @@ public class SemanticScope {
 
 		var funcs = function_symbol_table.get(identifier);
 
-		// If key is not present in multimap
+		// If key is not present in hashmap
 		if (!function_symbol_table.containsKey(identifier)) {
 			throw new RuntimeException("Something went wrong when determining the type of '" + identifier + "'.");
 		}
@@ -93,14 +93,14 @@ public class SemanticScope {
 
 	public final int declaration_line(String identifier, ArrayList<parser.TYPE> signature) {
 
-		// If key is not present in multimap
+		// If key is not present in hashmap
 		if (!function_symbol_table.containsKey(identifier)) {
 			throw new RuntimeException(
 					"Something went wrong when determining the line number of '" + identifier + "'.");
 		}
 
 		// Check signature for each
-		for (String key : function_symbol_table.keySet()) {
+		for (var key : function_symbol_table.keySet()) {
 			for (var func : function_symbol_table.get(key)) {
 				if (func.signature.equals(signature)) {
 					return func.line_number;

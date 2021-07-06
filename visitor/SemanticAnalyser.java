@@ -126,7 +126,7 @@ public class SemanticAnalyser implements Visitor {
 		// Check whether this is a function block by seeing if we have any current
 		// function parameters. If we do, then add them to the current scope.
 		for (var param : current_function_parameters) {
-			int index = scopes.size() - 1;
+			int index = (scopes.size() - 1);
 			// Access last element by passing index
 			scopes.get(index).declare(param.first, param.second, block.line_number);
 		}
@@ -140,7 +140,8 @@ public class SemanticAnalyser implements Visitor {
 		}
 
 		// Close scope
-		scopes = pop_back(scopes);
+		scopes.remove(scopes.size()-1);
+		//scopes = pop_back(scopes);
 	}
 
 	public void visit(parser.ASTIfNode ifnode) {
@@ -180,19 +181,19 @@ public class SemanticAnalyser implements Visitor {
 	}
 
 	public void visit(parser.ASTForNode fornode) {
-
-		fornode.variable.accept(this);
+		
+		if (fornode.variable != null){
+			fornode.variable.accept(this);
+		}
 
 		// Set current type to for expression
 		fornode.expression.accept(this);
-
+		
 		// Make sure it is boolean
 		if (current_expression_type != parser.TYPE.BOOLEAN) {
 			throw new RuntimeException("Invalid for-condition on line " + String.valueOf(fornode.line_number)
 					+ ", expected boolean expression.");
 		}
-
-		// TODO add assignment analysis
 
 		// Check the for block
 		fornode.block.accept(this);
@@ -227,7 +228,7 @@ public class SemanticAnalyser implements Visitor {
 		scopes.get(index).declare(func.identifier, func.type, func.signature, func.line_number);
 
 		// Push current function type onto function stack
-		functions.push(func.type);
+		functions.add(func.type);
 
 		// Empty and update current function parameters vector
 		current_function_parameters.clear();
@@ -243,7 +244,8 @@ public class SemanticAnalyser implements Visitor {
 		}
 
 		// End the current function
-		functions.pop();
+		// bookmark
+		//functions.pop();
 	}
 
 	public void visit(parser.ASTLiteralNode lit) {
@@ -461,6 +463,11 @@ public class SemanticAnalyser implements Visitor {
 			return returns(whilestmt.block);
 		}
 
+		if(stmt instanceof ASTForNode){
+            ASTForNode forStatement = (ASTForNode) stmt;
+            return returns(forStatement.block);
+        }
+
 		// Other statements do not return
 		else {
 			return false;
@@ -469,13 +476,13 @@ public class SemanticAnalyser implements Visitor {
 	}
 
 	public static SemanticScope back(ArrayList<SemanticScope> scope) {
-		int index = scope.size() - 1;
+		int index = (scope.size() - 1);
 		// Access last element by passing index
 		return scope.get(index);
 	}
 
 	public static ArrayList<SemanticScope> pop_back(ArrayList<SemanticScope> scope) {
-		int index = scope.size() - 1;
+		int index = (scope.size() - 1);
 		// Delete last element by passing index
 		scope.remove(index);
 		return scope;

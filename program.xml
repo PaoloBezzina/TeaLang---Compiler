@@ -1,19 +1,19 @@
 <Program>
-	<FuncDef type="int">
-		<Identifier>fib</Identifier>
-		<Parameter type="int">n</Parameter>
+	<FuncDef type="bool">
+		<Identifier>f</Identifier>
+		<Parameter type="int">x</Parameter>
 		<Block>
 			<If>
 				<Condition>
-					<BinExprNode Op="==">
-						<Identifier>n</Identifier>
-						<IntConst>0</IntConst>
+					<BinExprNode Op=">">
+						<Identifier>x</Identifier>
+						<IntConst>2</IntConst>
 					</BinExprNode>
 				</Condition>
 				<IfBlock>
 					<Block>
 						<Return>
-							<IntConst>0</IntConst>
+							<BoolConst>true</BoolConst>
 						</Return>
 					</Block>
 				</IfBlock>
@@ -21,41 +21,25 @@
 					<Block>
 						<If>
 							<Condition>
-								<BinExprNode Op="==">
-									<Identifier>n</Identifier>
-									<IntConst>1</IntConst>
+								<BinExprNode Op="<">
+									<Identifier>x</Identifier>
+									<IntConst>0</IntConst>
 								</BinExprNode>
 							</Condition>
 							<IfBlock>
 								<Block>
 									<Return>
-										<IntConst>1</IntConst>
+										<BoolConst>false</BoolConst>
 									</Return>
 								</Block>
 							</IfBlock>
 							<ElseBlock>
 								<Block>
+									<Print>
+										<StringConst>I don't return here </StringConst>
+									</Print>
 									<Return>
-										<BinExprNode Op="+">
-											<FuncCall>
-												<Identifier>fib</Identifier>
-												<Arg>
-													<BinExprNode Op="-">
-														<Identifier>n</Identifier>
-														<IntConst>1</IntConst>
-													</BinExprNode>
-												</Arg>
-											</FuncCall>
-											<FuncCall>
-												<Identifier>fib</Identifier>
-												<Arg>
-													<BinExprNode Op="+">
-														<Identifier>n</Identifier>
-														<IntConst>2</IntConst>
-													</BinExprNode>
-												</Arg>
-											</FuncCall>
-										</BinExprNode>
+										<BoolConst>false</BoolConst>
 									</Return>
 								</Block>
 							</ElseBlock>
@@ -67,9 +51,9 @@
 	</FuncDef>
 	<Print>
 		<FuncCall>
-			<Identifier>fib</Identifier>
+			<Identifier>f</Identifier>
 			<Arg>
-				<IntConst>6</IntConst>
+				<IntConst>1</IntConst>
 			</Arg>
 		</FuncCall>
 	</Print>

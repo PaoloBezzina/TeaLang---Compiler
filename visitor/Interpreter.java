@@ -12,7 +12,7 @@ public class Interpreter implements Visitor {
 	private parser.TYPE current_expression_type;
 	private value_t current_expression_value = new value_t();
 	private ArrayList<String> current_function_parameters = new ArrayList<String>();
-	private ArrayList<tangible.Pair<parser.TYPE, value_t>> current_function_arguments = new ArrayList<tangible.Pair<parser.TYPE, value_t>>();
+	private ArrayList<value_t> current_function_arguments = new ArrayList<value_t>();
 
 	public Interpreter() {
 		// Add global scope
@@ -24,6 +24,7 @@ public class Interpreter implements Visitor {
 		scopes.add(global_scope);
 	}
 
+	@Override
 	public void visit(parser.ASTProgramNode prog) {
 
 		// For each statement, accept
@@ -32,6 +33,7 @@ public class Interpreter implements Visitor {
 		}
 	}
 
+	@Override
 	public void visit(parser.ASTDeclarationNode decl) {
 
 		// Visit expression to update current value/type
@@ -58,6 +60,7 @@ public class Interpreter implements Visitor {
 		}
 	}
 
+	@Override
 	public void visit(parser.ASTAssignmentNode assign) {
 
 		// Determine innermost scope in which variable is declared
@@ -74,6 +77,7 @@ public class Interpreter implements Visitor {
 			case INT:
 				scopes.get(i).declare(assign.identifier, current_expression_value.i);
 				break;
+
 			case FLOAT:
 				if (current_expression_type == parser.TYPE.INT) {
 					scopes.get(i).declare(assign.identifier, (float) current_expression_value.i);
@@ -81,15 +85,18 @@ public class Interpreter implements Visitor {
 					scopes.get(i).declare(assign.identifier, current_expression_value.f);
 				}
 				break;
+
 			case BOOLEAN:
 				scopes.get(i).declare(assign.identifier, current_expression_value.b);
 				break;
+
 			case STRING:
 				scopes.get(i).declare(assign.identifier, current_expression_value.s);
 				break;
 		}
 	}
 
+	@Override
 	public void visit(parser.ASTPrintNode print) {
 
 		// Visit expression node to update current value/type
@@ -98,25 +105,27 @@ public class Interpreter implements Visitor {
 		// Print, depending on type
 		switch (current_expression_type) {
 			case INT:
-				System.out.print(current_expression_value.i);
+				System.out.println(current_expression_value.i);
 				break;
 			case FLOAT:
-				System.out.print(current_expression_value.f);
+				System.out.println(current_expression_value.f);
 				break;
 			case BOOLEAN:
-				System.out.print(((current_expression_value.b) ? "true" : "false"));
+				System.out.println(((current_expression_value.b) ? "true" : "false"));
 				break;
 			case STRING:
-				System.out.print(current_expression_value.s);
+				System.out.println(current_expression_value.s);
 				break;
 		}
 	}
 
+	@Override
 	public void visit(parser.ASTReturnNode ret) {
 		// Update current expression
 		ret.expr.accept(this);
 	}
 
+	@Override
 	public void visit(parser.ASTBlockNode block) {
 
 		// Create new scope
@@ -125,25 +134,24 @@ public class Interpreter implements Visitor {
 		// Check whether this is a function block by seeing if we have any current
 		// function parameters. If we do, then add them to the current scope.
 		for (int i = 0; i < current_function_arguments.size(); i++) {
-			switch (current_function_arguments.get(i).first) {
+			switch (current_function_arguments.get(i).type) {
 				case INT:
 					scopes.get(scopes.size() - 1).declare(current_function_parameters.get(i),
-							current_function_arguments.get(i).second.i);
+							current_function_arguments.get(i).i);
 					break;
 				case FLOAT:
-					scopes.get(scopes.size() - 1).declare(current_function_parameters.get(i),
-							current_function_arguments.get(i).second.f);
+					scopes.get(scopes.size() - 1).declare(current_function_parameters.get(i),(float) current_function_arguments.get(i).f);
 					break;
 				case BOOLEAN:
 					scopes.get(scopes.size() - 1).declare(current_function_parameters.get(i),
-							current_function_arguments.get(i).second.b);
+							current_function_arguments.get(i).b);
 					break;
 				case STRING:
 					scopes.get(scopes.size() - 1).declare(current_function_parameters.get(i),
-							current_function_arguments.get(i).second.s);
+							current_function_arguments.get(i).s);
 					break;
 				default:
-					throw new RuntimeException("Invalid Type for " + current_function_arguments.get(i).first);
+					throw new RuntimeException("Invalid Type for " + current_function_arguments.get(i).type);
 			}
 		}
 
@@ -160,6 +168,7 @@ public class Interpreter implements Visitor {
 		scopes.remove(scopes.size() - 1);
 	}
 
+	@Override
 	public void visit(parser.ASTIfNode ifNode) {
 
 		// Evaluate if condition
@@ -176,6 +185,7 @@ public class Interpreter implements Visitor {
 
 	}
 
+	@Override
 	public void visit(parser.ASTWhileNode whileNode) {
 
 		// Evaluate while condition
@@ -190,6 +200,7 @@ public class Interpreter implements Visitor {
 		}
 	}
 
+	@Override
 	public void visit(ASTForNode forNode) {
 		forNode.variable.accept(this);
 		forNode.expression.accept(this);
@@ -202,6 +213,7 @@ public class Interpreter implements Visitor {
 		forNode.expression.accept(this);
 	}
 
+	@Override
 	public void visit(parser.ASTFunctionDefinitionNode func) {
 
 		// Add function to symbol table
@@ -209,6 +221,7 @@ public class Interpreter implements Visitor {
 
 	}
 
+	@Override
 	public void visit(parser.ASTLiteralNode lit) {
 		String type = lit.getType();
 
@@ -216,24 +229,28 @@ public class Interpreter implements Visitor {
 
 			value_t v = new value_t();
 			v.i = (int) lit.value;
+			v.type = parser.TYPE.INT;
 			current_expression_type = parser.TYPE.INT;
 			current_expression_value = v;
 
 		} else if (type.equals("Float")) {
 			value_t v = new value_t();
 			v.f = (float) lit.value;
+			v.type = parser.TYPE.FLOAT;
 			current_expression_type = parser.TYPE.FLOAT;
 			current_expression_value = v;
 
 		} else if (type.equals("Boolean")) {
 			value_t v = new value_t();
 			v.b = (boolean) lit.value;
+			v.type = parser.TYPE.BOOLEAN;
 			current_expression_type = parser.TYPE.BOOLEAN;
 			current_expression_value = v;
 
 		} else if (type.equals("String")) {
 			value_t v = new value_t();
 			v.s = (String) lit.value;
+			v.type = parser.TYPE.STRING;
 			current_expression_type = parser.TYPE.STRING;
 			current_expression_value = v;
 		} else {
@@ -241,6 +258,7 @@ public class Interpreter implements Visitor {
 		}
 	}
 
+	@Override
 	public void visit(parser.ASTBinaryExprNode bin) {
 
 		// Operator
@@ -266,16 +284,20 @@ public class Interpreter implements Visitor {
 				current_expression_type = parser.TYPE.INT;
 				if (op.equals("+")) {
 					v.i = l_value.i + r_value.i;
+					v.type = current_expression_type;
 				} else if (op.equals("-")) {
 					v.i = l_value.i - r_value.i;
+					v.type = current_expression_type;
 				} else if (op.equals("*")) {
 					v.i = l_value.i * r_value.i;
+					v.type = current_expression_type;
 				} else if (op.equals("/")) {
 					if (r_value.i == 0) {
 						throw new RuntimeException(
 								"Division by zero encountered on line " + String.valueOf(bin.line_number) + ".");
 					}
 					v.i = l_value.i / r_value.i;
+					v.type = current_expression_type;
 				}
 			}
 			// At least one real
@@ -291,22 +313,27 @@ public class Interpreter implements Visitor {
 				}
 				if (op.equals("+")) {
 					v.f = l + r;
+					v.type = current_expression_type;
 				} else if (op.equals("-")) {
 					v.f = l - r;
+					v.type = current_expression_type;
 				} else if (op.equals("*")) {
 					v.f = l * r;
+					v.type = current_expression_type;
 				} else if (op.equals("/")) {
 					if (r == 0F) {
 						throw new RuntimeException(
 								"Division by zero encountered on line " + String.valueOf(bin.line_number) + ".");
 					}
 					v.f = l / r;
+					v.type = current_expression_type;
 				}
 			}
 			// Remaining case is for strings
 			else {
 				current_expression_type = parser.TYPE.STRING;
 				v.s = l_value.s + r_value.s;
+				v.type = current_expression_type;
 			}
 		}
 		// Now bool
@@ -322,6 +349,7 @@ public class Interpreter implements Visitor {
 		// Now Comparator Operators
 		else {
 			current_expression_type = parser.TYPE.BOOLEAN;
+			v.type = current_expression_type;
 			if (l_type == parser.TYPE.BOOLEAN) {
 				v.b = (op.equals("==")) ? l_value.b == r_value.b : l_value.b != r_value.b;
 			}
@@ -360,6 +388,7 @@ public class Interpreter implements Visitor {
 
 	}
 
+	@Override
 	public void visit(parser.ASTIdentifierNode id) {
 
 		// Determine innermost scope in which variable is declared
@@ -374,6 +403,7 @@ public class Interpreter implements Visitor {
 
 	}
 
+	@Override
 	public void visit(parser.ASTUnaryExprNode un) {
 
 		// Update current expression
@@ -393,14 +423,17 @@ public class Interpreter implements Visitor {
 			case BOOLEAN:
 				current_expression_value.b ^= true;
 				break;
+			default:
+				break;
 		}
 	}
 
+	@Override
 	public void visit(parser.ASTFunctionCallNode func) {
 
 		// Determine the signature of the function
 		ArrayList<parser.TYPE> signature = new ArrayList<parser.TYPE>();
-		ArrayList<tangible.Pair<parser.TYPE, value_t>> current_function_arguments = new ArrayList<tangible.Pair<parser.TYPE, value_t>>();
+		ArrayList<value_t> current_function_arguments = new ArrayList<value_t>();
 
 		// For each parameter,
 		for (var param : func.statements) {
@@ -414,7 +447,7 @@ public class Interpreter implements Visitor {
 			// add the current expr to the local vector of function arguments, to be used in
 			// the creation of the function scope
 			current_expression_value.type = current_expression_type;
-			current_function_arguments.add(new tangible.Pair(current_expression_type, current_expression_value));
+			current_function_arguments.add(current_expression_value);
 		}
 
 		// Update the global vector current_function_arguments
