@@ -9,4 +9,7 @@ bool f(x : int) {
             print "I don't return here";
         }
     }
+    return false;
 }
+
+print f(2);

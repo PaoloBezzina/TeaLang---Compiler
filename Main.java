@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String filePath = "sampleCode/teaTest5.txt";
+        String filePath = "sampleCode/teaTest3.txt";
 
         File file = new File(filePath);
         String program = "";
@@ -34,28 +34,30 @@ public class Main {
             program += (st + "\n");
         }
 
-        //System.out.println(program);
+        // System.out.println(program);
 
         // Lexer
         Lexer lexer = new Lexer(program);
         Token t = new Token();
-/* 
-        while(t.type != TOKENS.TOK_EOF){
-            t = lexer.GetNextToken();
-            System.out.println(t.type + ": " + t.value);
-        }
- */
-        //Parser
+        /*
+         * while(t.type != TOKENS.TOK_EOF){ t = lexer.GetNextToken();
+         * System.out.println(t.type + ": " + t.value); }
+         */
+        // Parser
         Parser parser = new Parser(lexer);
         ASTProgramNode progNode = parser.parse_program();
 
-        //XML
+        // XML
         XMLVisitor xml = new XMLVisitor();
         xml.visit(progNode);
         xml.close();
 
-        //Semantic Analysis
+        // Semantic Analysis
         SemanticAnalyser analyser = new SemanticAnalyser();
         analyser.visit(progNode);
+
+        // Interpreter
+        Interpreter interpreter = new Interpreter();
+        interpreter.visit(progNode);
     }
 }

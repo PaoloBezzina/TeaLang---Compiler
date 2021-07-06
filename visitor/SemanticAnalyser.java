@@ -181,20 +181,20 @@ public class SemanticAnalyser implements Visitor {
 
 	public void visit(parser.ASTForNode fornode) {
 
-		// TODO add variable analysis
+		fornode.variable.accept(this);
 
-		// Set current type to while expression
+		// Set current type to for expression
 		fornode.expression.accept(this);
 
 		// Make sure it is boolean
 		if (current_expression_type != parser.TYPE.BOOLEAN) {
-			throw new RuntimeException("Invalid while-condition on line " + String.valueOf(fornode.line_number)
+			throw new RuntimeException("Invalid for-condition on line " + String.valueOf(fornode.line_number)
 					+ ", expected boolean expression.");
 		}
 
 		// TODO add assignment analysis
 
-		// Check the while block
+		// Check the for block
 		fornode.block.accept(this);
 	}
 

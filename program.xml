@@ -1,38 +1,65 @@
 <Program>
 	<FuncDef type="int">
-		<Identifier>factorial</Identifier>
+		<Identifier>fib</Identifier>
 		<Parameter type="int">n</Parameter>
 		<Block>
 			<If>
 				<Condition>
 					<BinExprNode Op="==">
 						<Identifier>n</Identifier>
-						<IntConst>1</IntConst>
+						<IntConst>0</IntConst>
 					</BinExprNode>
 				</Condition>
 				<IfBlock>
 					<Block>
 						<Return>
-							<IntConst>1</IntConst>
+							<IntConst>0</IntConst>
 						</Return>
 					</Block>
 				</IfBlock>
 				<ElseBlock>
 					<Block>
-						<Return>
-							<BinExprNode Op="*">
-								<Identifier>n</Identifier>
-								<FuncCall>
-									<Identifier>factorial</Identifier>
-									<Arg>
-										<BinExprNode Op="-">
-											<Identifier>n</Identifier>
-											<IntConst>1</IntConst>
+						<If>
+							<Condition>
+								<BinExprNode Op="==">
+									<Identifier>n</Identifier>
+									<IntConst>1</IntConst>
+								</BinExprNode>
+							</Condition>
+							<IfBlock>
+								<Block>
+									<Return>
+										<IntConst>1</IntConst>
+									</Return>
+								</Block>
+							</IfBlock>
+							<ElseBlock>
+								<Block>
+									<Return>
+										<BinExprNode Op="+">
+											<FuncCall>
+												<Identifier>fib</Identifier>
+												<Arg>
+													<BinExprNode Op="-">
+														<Identifier>n</Identifier>
+														<IntConst>1</IntConst>
+													</BinExprNode>
+												</Arg>
+											</FuncCall>
+											<FuncCall>
+												<Identifier>fib</Identifier>
+												<Arg>
+													<BinExprNode Op="+">
+														<Identifier>n</Identifier>
+														<IntConst>2</IntConst>
+													</BinExprNode>
+												</Arg>
+											</FuncCall>
 										</BinExprNode>
-									</Arg>
-								</FuncCall>
-							</BinExprNode>
-						</Return>
+									</Return>
+								</Block>
+							</ElseBlock>
+						</If>
 					</Block>
 				</ElseBlock>
 			</If>
@@ -40,9 +67,9 @@
 	</FuncDef>
 	<Print>
 		<FuncCall>
-			<Identifier>factorial</Identifier>
+			<Identifier>fib</Identifier>
 			<Arg>
-				<IntConst>10</IntConst>
+				<IntConst>6</IntConst>
 			</Arg>
 		</FuncCall>
 	</Print>
