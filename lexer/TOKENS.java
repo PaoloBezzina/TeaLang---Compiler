@@ -8,7 +8,6 @@ public enum TOKENS {
     TOK_RELATIONAL_OP,
     TOK_EQUALS,
     TOK_LET,
-    TOK_SET,
     TOK_DEF,
     TOK_RETURN,
     TOK_IF,

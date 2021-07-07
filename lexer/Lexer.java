@@ -7,9 +7,7 @@ public class Lexer {
 
     private final int e = 23;
 
-    /*
-     * S0 S1 S2 S3 S4 S5 S6 S7 S8 S9 S10 S11 S12 S13 S14 S15 S16 S17 S18 S19 S20 S21 S22 Se
-     */
+    // S0 S1 S2 S3 S4 S5 S6 S7 S8 S9 S10 S11 S12 S13 S14 S15 S16 S17 S18 S19 S20 S21 S22 Se
     private final boolean[] is_final = {false, true, false, true, true, true, false, true, true, true, true, true, false, false, true, false, true, false, false, false, true, true, true, false};
 
     private final int[][] transitions = {
@@ -52,11 +50,7 @@ public class Lexer {
         }
     }
 
-    /**
-     * Returns the next token. This function returns the object in the global vector
-     * #tokens at the position specified by the global unsigned integer
-     * #current_token, which is then incremented.
-     */
+    //Returns the next token
     public final Token GetNextToken() {
         if (current_token < tokens.size()) {
             return tokens.get(current_token++);
@@ -66,15 +60,10 @@ public class Lexer {
         }
     }
 
-    /**
-     * Returns the state number to go to from state S<SUB>s</SUB> in the DFA when
-     * encountering the character \f$\sigma\f$.
-     */
-    private int transition_delta(int s, char sigma) {
+    //Returns the state number to go to from one state to another.
+    private int transition(int s, char sigma) {
 
-        /*
-         * Check which transition type we have, and then refer to the transition table.
-         */
+        //Check which transition type we have, and then refer to the transition table.
         switch (sigma) {
             case '0':
             case '1':
@@ -198,7 +187,7 @@ public class Lexer {
             state_stack.push(current_state);
 
             // Go to next state using delta function in DFA
-            current_state = transition_delta(current_state, current_symbol);
+            current_state = transition(current_state, current_symbol);
 
             // Update current index for next iteration
             current_index++;

@@ -3,7 +3,7 @@
 float Pow(x : float, n : int){ 
     let y : float = 1.0 ;       //Declare y and set it to 1.0
     if (n>0){ 
-        for ( ; 0<n; n=n-1){ 
+        for ( ; n>0; n=n-1){ 
             y=y*x;             //Assignment
         }
     }else{

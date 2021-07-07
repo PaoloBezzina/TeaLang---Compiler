@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String filePath = "sampleCode/teaTest6.txt";
+        String filePath = "sampleCode/square.txt";
 
         File file = new File(filePath);
         String program = "";
@@ -39,6 +39,13 @@ public class Main {
         // Lexer
         Lexer lexer = new Lexer(program);
         Token t = new Token();
+
+        /* 
+        while(t.type != TOKENS.TOK_EOF){
+            t = lexer.GetNextToken();
+            System.out.println(t.type + ": " + t.value);
+        }  */
+       
 
         // Parser
         Parser parser = new Parser(lexer);

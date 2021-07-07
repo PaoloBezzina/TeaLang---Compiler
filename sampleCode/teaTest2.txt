@@ -6,7 +6,7 @@ bool f(x : int) {
             return false;
         }
         else{
-            print "I don't return here ";
+            print "I don't return here";
             return false;
         }
     }

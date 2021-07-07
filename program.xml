@@ -1,60 +1,26 @@
 <Program>
-	<FuncDef type="bool">
-		<Identifier>f</Identifier>
-		<Parameter type="int">x</Parameter>
+	<FuncDef type="float">
+		<Identifier>Square</Identifier>
+		<Parameter type="float">x</Parameter>
 		<Block>
-			<If>
-				<Condition>
-					<BinExprNode Op=">">
-						<Identifier>x</Identifier>
-						<IntConst>2</IntConst>
-					</BinExprNode>
-				</Condition>
-				<IfBlock>
-					<Block>
-						<Return>
-							<BoolConst>true</BoolConst>
-						</Return>
-					</Block>
-				</IfBlock>
-				<ElseBlock>
-					<Block>
-						<If>
-							<Condition>
-								<BinExprNode Op="<">
-									<Identifier>x</Identifier>
-									<IntConst>0</IntConst>
-								</BinExprNode>
-							</Condition>
-							<IfBlock>
-								<Block>
-									<Return>
-										<BoolConst>false</BoolConst>
-									</Return>
-								</Block>
-							</IfBlock>
-							<ElseBlock>
-								<Block>
-									<Print>
-										<StringConst>I don't return here </StringConst>
-									</Print>
-									<Return>
-										<BoolConst>false</BoolConst>
-									</Return>
-								</Block>
-							</ElseBlock>
-						</If>
-					</Block>
-				</ElseBlock>
-			</If>
+			<Return>
+				<BinExprNode Op="*">
+					<Identifier>x</Identifier>
+					<Identifier>x</Identifier>
+				</BinExprNode>
+			</Return>
 		</Block>
 	</FuncDef>
-	<Print>
+	<Decl>
+		<Identifier type="float">y</Identifier>
 		<FuncCall>
-			<Identifier>f</Identifier>
+			<Identifier>Square</Identifier>
 			<Arg>
-				<IntConst>1</IntConst>
+				<FloatConst>2.5</FloatConst>
 			</Arg>
 		</FuncCall>
+	</Decl>
+	<Print>
+		<Identifier>y</Identifier>
 	</Print>
 </Program>

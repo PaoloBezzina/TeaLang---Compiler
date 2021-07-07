@@ -50,9 +50,6 @@ public class Token {
 				if (value.equals("let")) {
 					return TOKENS.TOK_LET;
 				}
-				if (value.equals("set")) {
-					return TOKENS.TOK_SET;
-				}
 				if (value.equals("return")) {
 					return TOKENS.TOK_RETURN;
 				}
